@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "16023162594",
+    "project_id": "foodboard-dscupd",
+    "storage_bucket": "foodboard-dscupd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16023162594:android:ad275ff97729e51c0c58bb",
+        "android_client_info": {
+          "package_name": "com.dscupd.foodboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16023162594-hpeqhu0i2ooeoo6s9t6pe32e3b2rtmqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYl1d7u9o9zE-wYXLhNteAlDBFSzgm8xI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16023162594-hpeqhu0i2ooeoo6s9t6pe32e3b2rtmqc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "16023162594-diospp0aidquh1tf8ggq6b8pmv9slc6g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dscupd.foodboard"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
