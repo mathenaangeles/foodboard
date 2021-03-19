@@ -1,6 +1,7 @@
-# foodboard
 
-A new Flutter project.
+# Foodboard
+
+Foodboard is a cross-platform mobile application that automates local food donation systems. It is built with Flutter and Firebase.
 
 ## Getting Started
 
@@ -14,3 +15,9 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+1. Open a simulator. Type `open -a simulator` if you're working on a Mac.
+2. Run `flutter run`.
+
+
+
