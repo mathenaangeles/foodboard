@@ -10,6 +10,8 @@ import 'package:foodboard/utils/auth_service.dart';
 import 'package:foodboard/home.dart';
 import 'package:foodboard/auth/login.dart';
 
+import 'package:foodboard/config.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -50,7 +52,7 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
-    if (firebaseUser != null) {
+    if (firebaseUser != null || DEBUG_DISABLE_LOGIN) {
       return Home();
     } else {
       return Login();
