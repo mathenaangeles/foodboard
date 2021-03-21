@@ -20,10 +20,6 @@ class Home extends StatelessWidget {
         HomeTitleBar(
           press: () {},
           text: user.email, // TODO: Replace this with user's name
-          gradient: LinearGradient(colors: <Color>[
-            light_green,
-            dark_green,
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
         HomeHeader(user),
       ],

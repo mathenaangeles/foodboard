@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:foodboard/constants.dart';
 
 class HomeTitleBar extends StatelessWidget {
   final String text;
   final Function press;
-  final Gradient gradient;
-  const HomeTitleBar({
+  final Gradient gradient = LinearGradient(colors: <Color>[
+            light_green,
+            dark_green,
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter);
+  
+  HomeTitleBar({
     Key key,
     this.text,
     this.press,
-    this.gradient,
   }) : super(key: key);
 
   final double barHeight = 50.0;

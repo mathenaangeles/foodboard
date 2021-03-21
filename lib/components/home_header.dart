@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:foodboard/constants.dart';
+import 'package:foodboard/components/gradient_icon.dart';
 
 import 'package:intl/intl.dart';
+
+const style_header_title = TextStyle(
+    color: header_title_color,
+    fontSize: header_text_size,
+    fontWeight: FontWeight.w600);
+
+const style_header_item = TextStyle(
+    color: header_item_color,
+    fontSize: header_text_size,
+    fontWeight: FontWeight.w600);
 
 class HomeHeader extends StatelessWidget {
   final user;
@@ -43,10 +54,7 @@ class HeaderTitle extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           text,
-          style: TextStyle(
-              color: header_title_color,
-              fontSize: header_text_size,
-              fontWeight: FontWeight.w600),
+          style: style_header_title,
         ));
   }
 }
@@ -62,14 +70,11 @@ class HeaderItem extends StatelessWidget {
     return Align(
         alignment: Alignment.centerLeft,
         child: Row(children: [
-          Icon(icon),
+          GradientIcon(icon),
           SizedBox(width: 10),
           Text(
             text,
-            style: TextStyle(
-                color: header_item_color,
-                fontSize: header_text_size,
-                fontWeight: FontWeight.w600),
+            style: style_header_item,
           )
         ]));
   }
@@ -89,22 +94,16 @@ class HeaderItemWithContent extends StatelessWidget {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Row(children: [
-            Icon(icon),
+            GradientIcon(icon),
             SizedBox(width: 10),
             Text(
               text,
-              style: TextStyle(
-                  color: header_item_color,
-                  fontSize: header_text_size,
-                  fontWeight: FontWeight.w600),
+              style: style_header_item,
             )
           ]),
           Text(
             content,
-            style: TextStyle(
-                color: header_title_color,
-                fontSize: header_text_size,
-                fontWeight: FontWeight.w600),
+            style: style_header_title,
           )
         ]));
   }
