@@ -1,1 +1,1 @@
-const DEBUG_DISABLE_LOGIN = true;
+const DEBUG_DISABLE_LOGIN = false;

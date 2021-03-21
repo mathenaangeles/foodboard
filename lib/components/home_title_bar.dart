@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foodboard/constants.dart';
 
 class HomeTitleBar extends StatelessWidget {
   final String text;
