@@ -66,6 +66,27 @@ class DonationCard extends StatelessWidget {
                         )),
                     SizedBox(height: 10.0),
                     DonationCardFoodTags(cardData[3]),
+                    SizedBox(height: 10.0),
+                    DonationDetailItem(Icons.warning, "Expiration Date",
+                        DateFormat("d MMMM y").format(cardData[4]), true),
+                    SizedBox(height: 5.0),
+                    DonationDetailItem(
+                        Icons.location_on, "Address", cardData[5], false),
+                    SizedBox(height: 5.0),
+                    DonationDetailItem(
+                        // TODO: Change this icon too.
+                        Icons.attach_money,
+                        "Estimated Weight",
+                        cardData[6].toString() + " kg",
+                        false),
+                    SizedBox(height: 5.0),
+                    DonationDetailItem(
+                        // TODO: Change this icon too.
+                        Icons.note,
+                        "Notes",
+                        "",
+                        false),
+                    Text(cardData[7], style: style_donation_notes),
                   ],
                 ))));
   }
@@ -97,5 +118,44 @@ class DonationCardFoodTags extends StatelessWidget {
     return Row(
       children: foodTags,
     );
+  }
+}
+
+class DonationDetailItem extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final String content;
+  final bool is_expiry;
+
+  DonationDetailItem(this.icon, this.text, this.content, this.is_expiry);
+
+  @override
+  Widget build(BuildContext context) {
+    var style_text =
+        (is_expiry) ? style_donation_detail_expiry : style_donation_detail_text;
+    var style_content = (is_expiry)
+        ? style_donation_detail_expiry
+        : style_donation_detail_content;
+
+    var iconWidget =
+        (is_expiry) ? Icon(icon, color: text_red) : GradientIcon(icon);
+
+    return Align(
+        alignment: Alignment.centerLeft,
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Row(children: [
+            iconWidget,
+            SizedBox(width: 5),
+            Text(
+              text,
+              style: style_text,
+            )
+          ]),
+          Text(
+            content,
+            style: style_content,
+          )
+        ]));
   }
 }
