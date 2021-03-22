@@ -4,16 +4,6 @@ import 'package:foodboard/components/gradient_icon.dart';
 
 import 'package:intl/intl.dart';
 
-const style_header_title = TextStyle(
-    color: header_title_color,
-    fontSize: header_text_size,
-    fontWeight: FontWeight.w600);
-
-const style_header_item = TextStyle(
-    color: header_item_color,
-    fontSize: header_text_size,
-    fontWeight: FontWeight.w600);
-
 class HomeHeader extends StatelessWidget {
   final user;
   final String dateNow = DateFormat("EEEE, d MMMM y").format(DateTime.now());
@@ -23,6 +13,7 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        color: header_background_color,
         padding: EdgeInsets.all(20),
         child: Column(
           children: [
