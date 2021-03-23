@@ -5,6 +5,8 @@ const text_red = Color(0xFFF6726E);
 
 const light_green = Color(0xFF67E093);
 const dark_green = Color(0xFF3CBA9E);
+const light_red = Color(0xFFF89892);
+const dark_red = Color(0xFFF67874);
 const dark_grey = Color(0xFF83859D);
 
 const shadow_color = Color(0x33343645);
@@ -12,8 +14,9 @@ const shadow_color = Color(0x33343645);
 const header_background_color = Colors.white;
 const cards_background_color = Color(0xFFF8F7FC);
 
-const header_text_size = 15.0;
+const header_text_size = 12.0;
 const header_tabs_text_size = 12.0;
+const header_spacing = 10.0;
 const donation_detail_text_size = 13.0;
 
 const header_title_color = Color(0xFF5E6080);

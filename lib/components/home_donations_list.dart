@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodboard/components/main_button.dart';
 import 'package:foodboard/constants.dart';
 import 'package:foodboard/components/gradient_icon.dart';
 
@@ -109,6 +110,48 @@ class DonationCard extends StatelessWidget {
                         "",
                         false),
                     Text(cardData[7], style: style_donation_notes),
+                    SizedBox(height: 10.0),
+                    (cardType == "rescuer")
+                        ? MainButton(
+                            text: "Accept",
+                            press: () {},
+                            gradient: LinearGradient(
+                              colors: <Color>[
+                                light_green,
+                                dark_green,
+                              ],
+                            ))
+                        : SizedBox(),
+                    (cardType == "pantry")
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                                Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 2.7,
+                                    child: MainIconButton(
+                                        icon: Icons.check_circle,
+                                        press: () {},
+                                        gradient: LinearGradient(
+                                          colors: <Color>[
+                                            light_green,
+                                            dark_green,
+                                          ],
+                                        ))),
+                                Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 2.7,
+                                    child: MainIconButton(
+                                        icon: Icons.remove_circle,
+                                        press: () {},
+                                        gradient: LinearGradient(
+                                          colors: <Color>[
+                                            light_red,
+                                            dark_red,
+                                          ],
+                                        ))),
+                              ])
+                        : SizedBox(),
                   ],
                 ))));
   }

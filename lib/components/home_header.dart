@@ -15,13 +15,13 @@ class HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     var headerItems = <Widget>[
       HeaderTitle(dateNow),
-      SizedBox(height: 10),
+      SizedBox(height: header_spacing / 2),
       HeaderItem(Icons.email_rounded, user.email),
       Divider(color: header_item_color),
       HeaderItem(Icons.local_phone, "+63 (917) 000 0000"),
-      SizedBox(height: 20),
+      SizedBox(height: header_spacing),
       HeaderTitle("Statistics"),
-      SizedBox(height: 10),
+      SizedBox(height: header_spacing / 2),
       // TODO: I can't find the specific icon for these, just change:
       (userType == "donor")
           ? HeaderItemWithContent(Icons.set_meal, "Successful Donations", "250")
