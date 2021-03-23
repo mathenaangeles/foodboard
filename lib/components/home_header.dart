@@ -6,30 +6,44 @@ import 'package:intl/intl.dart';
 
 class HomeHeader extends StatelessWidget {
   final user;
+  final userType;
   final String dateNow = DateFormat("EEEE, d MMMM y").format(DateTime.now());
 
-  HomeHeader(this.user);
+  HomeHeader(this.user, this.userType);
 
   @override
   Widget build(BuildContext context) {
+    var headerItems = <Widget>[
+      HeaderTitle(dateNow),
+      SizedBox(height: 10),
+      HeaderItem(Icons.email_rounded, user.email),
+      Divider(color: header_item_color),
+      HeaderItem(Icons.local_phone, "+63 (917) 000 0000"),
+      SizedBox(height: 20),
+      HeaderTitle("Statistics"),
+      SizedBox(height: 10),
+      // TODO: I can't find the specific icon for these, just change:
+      (userType == "donor")
+          ? HeaderItemWithContent(Icons.set_meal, "Successful Donations", "250")
+          : SizedBox(),
+      (userType == "rescuer")
+          ? HeaderItemWithContent(Icons.set_meal, "Donations Rescued", "250")
+          : SizedBox(),
+    ];
+
+    if (userType == "pantry") {
+      headerItems.add(HeaderItemWithContent(
+          Icons.set_meal, "Total Weight of Donations", "1000 kg"));
+      headerItems.add(Divider(color: header_item_color));
+      headerItems.add(
+          HeaderItemWithContent(Icons.set_meal, "Donations Received", "250"));
+    }
+
     return Container(
         color: header_background_color,
         padding: EdgeInsets.all(20),
         child: Column(
-          children: [
-            HeaderTitle(dateNow),
-            SizedBox(height: 10),
-            HeaderItem(Icons.email_rounded, user.email),
-            Divider(color: header_item_color),
-            HeaderItem(Icons.local_phone, "+63 (917) 000 0000"),
-
-            SizedBox(height: 20),
-            HeaderTitle("Statistics"),
-            SizedBox(height: 10),
-            // TODO: I can't find the specific icon for this, just change:
-            HeaderItemWithContent(
-                Icons.set_meal, "Successful Donations", "250"),
-          ],
+          children: headerItems,
         ));
   }
 }

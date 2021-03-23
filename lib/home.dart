@@ -56,6 +56,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<User>();
+    final userType = "pantry";
+
     return new Scaffold(
         body: new Column(
           children: [
@@ -63,7 +65,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               press: () {},
               text: user.email, // TODO: Replace this with user's name
             ),
-            HomeHeader(user),
+            HomeHeader(user, userType),
             Container(
               color: header_background_color,
               child: new TabBar(
@@ -83,31 +85,36 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               child: new TabBarView(
                 controller: _controller,
                 children: <Widget>[
-                  HomeDonationsList(dummy_data, "donor"),
-                  HomeDonationsList(dummy_data, "donor"),
-                  HomeDonationsList(dummy_data, "donor"),
-                  HomeDonationsList(dummy_data, "donor"),
+                  HomeDonationsList(dummy_data, userType),
+                  HomeDonationsList(dummy_data, userType),
+                  HomeDonationsList(dummy_data, userType),
+                  HomeDonationsList(dummy_data, userType),
                 ],
               ),
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Container(
-            width: 60,
-            height: 60,
-            child: Icon(
-              Icons.add,
-              size: 40,
-            ),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(colors: <Color>[
-                  light_green,
-                  dark_green,
-                ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-          ),
-          onPressed: () {},
-        ));
+        floatingActionButton: (userType == "donor")
+            ? FloatingActionButton(
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  child: Icon(
+                    Icons.add,
+                    size: 40,
+                  ),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                          colors: <Color>[
+                            light_green,
+                            dark_green,
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter)),
+                ),
+                onPressed: () {},
+              )
+            : SizedBox());
   }
 }
