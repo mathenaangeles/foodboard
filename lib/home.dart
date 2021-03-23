@@ -9,6 +9,9 @@ import 'package:foodboard/components/home_title_bar.dart';
 import 'package:foodboard/components/home_header.dart';
 import 'package:foodboard/components/home_donations_list.dart';
 
+// This is by default, the Donor home.
+// Change when back-end is set up.
+// - Carlos
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => new _HomeState();
@@ -80,10 +83,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               child: new TabBarView(
                 controller: _controller,
                 children: <Widget>[
-                  HomeDonationsList(dummy_data),
-                  HomeDonationsList(dummy_data),
-                  HomeDonationsList(dummy_data),
-                  HomeDonationsList(dummy_data),
+                  HomeDonationsList(dummy_data, "donor"),
+                  HomeDonationsList(dummy_data, "donor"),
+                  HomeDonationsList(dummy_data, "donor"),
+                  HomeDonationsList(dummy_data, "donor"),
                 ],
               ),
             ),

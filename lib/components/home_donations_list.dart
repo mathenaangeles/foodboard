@@ -6,13 +6,15 @@ import 'package:intl/intl.dart';
 
 class HomeDonationsList extends StatelessWidget {
   final donations;
+  final userType;
 
-  HomeDonationsList(this.donations);
+  HomeDonationsList(this.donations, this.userType);
 
   @override
   Widget build(BuildContext context) {
     var donationsCards = <Widget>[];
-    donations.forEach((element) => donationsCards.add(DonationCard(element)));
+    donations.forEach(
+        (element) => donationsCards.add(DonationCard(element, userType)));
 
     return Container(
         constraints: BoxConstraints.expand(),
@@ -25,8 +27,9 @@ class HomeDonationsList extends StatelessWidget {
 
 class DonationCard extends StatelessWidget {
   final cardData;
+  final cardType;
 
-  DonationCard(this.cardData);
+  DonationCard(this.cardData, this.cardType);
 
   @override
   Widget build(BuildContext context) {
@@ -46,24 +49,43 @@ class DonationCard extends StatelessWidget {
                 padding: EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Donation #" + cardData[0].toString(),
-                          style: style_donation_no,
-                        )),
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          cardData[1],
-                          style: style_donation_name,
-                        )),
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          cardData[2],
-                          style: style_donation_address,
-                        )),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "Donation #" + cardData[0].toString(),
+                                      style: style_donation_no,
+                                    )),
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      cardData[1],
+                                      style: style_donation_name,
+                                    )),
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      cardData[2],
+                                      style: style_donation_address,
+                                    )),
+                              ]),
+                          // Only include edit button if donor
+                          (cardType == "donor")
+                              ? IconButton(
+                                  splashRadius: 20.0,
+                                  padding: EdgeInsets.all(0.0),
+                                  onPressed: () {},
+                                  icon: Icon(Icons.edit,
+                                      color: header_item_color),
+                                )
+                              : SizedBox(),
+                        ]),
                     SizedBox(height: 10.0),
                     DonationCardFoodTags(cardData[3]),
                     SizedBox(height: 10.0),
