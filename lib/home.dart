@@ -54,41 +54,57 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     final user = context.watch<User>();
     return new Scaffold(
-      body: new Column(
-        children: [
-          HomeTitleBar(
-            press: () {},
-            text: user.email, // TODO: Replace this with user's name
-          ),
-          HomeHeader(user),
-          Container(
-            color: header_background_color,
-            child: new TabBar(
-              labelStyle: style_header_tabs,
-              labelColor: header_title_color,
-              indicatorColor: light_green,
-              controller: _controller,
-              tabs: [
-                Tab(text: "Pending"),
-                Tab(text: "Confirmed"),
-                Tab(text: "Rejected"),
-                Tab(text: "Received"),
-              ],
+        body: new Column(
+          children: [
+            HomeTitleBar(
+              press: () {},
+              text: user.email, // TODO: Replace this with user's name
             ),
-          ),
-          new Expanded(
-            child: new TabBarView(
-              controller: _controller,
-              children: <Widget>[
-                HomeDonationsList(dummy_data),
-                HomeDonationsList(dummy_data),
-                HomeDonationsList(dummy_data),
-                HomeDonationsList(dummy_data),
-              ],
+            HomeHeader(user),
+            Container(
+              color: header_background_color,
+              child: new TabBar(
+                labelStyle: style_header_tabs,
+                labelColor: header_title_color,
+                indicatorColor: light_green,
+                controller: _controller,
+                tabs: [
+                  Tab(text: "Pending"),
+                  Tab(text: "Confirmed"),
+                  Tab(text: "Rejected"),
+                  Tab(text: "Received"),
+                ],
+              ),
             ),
+            new Expanded(
+              child: new TabBarView(
+                controller: _controller,
+                children: <Widget>[
+                  HomeDonationsList(dummy_data),
+                  HomeDonationsList(dummy_data),
+                  HomeDonationsList(dummy_data),
+                  HomeDonationsList(dummy_data),
+                ],
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Container(
+            width: 60,
+            height: 60,
+            child: Icon(
+              Icons.add,
+              size: 40,
+            ),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(colors: <Color>[
+                  light_green,
+                  dark_green,
+                ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           ),
-        ],
-      ),
-    );
+          onPressed: () {},
+        ));
   }
 }

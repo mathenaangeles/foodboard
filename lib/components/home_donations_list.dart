@@ -41,7 +41,7 @@ class DonationCard extends StatelessWidget {
         child: Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
+            margin: EdgeInsets.fromLTRB(20, 0, 20, 15),
             child: Container(
                 padding: EdgeInsets.all(20),
                 child: Column(
