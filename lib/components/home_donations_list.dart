@@ -111,6 +111,10 @@ class DonationCard extends StatelessWidget {
                         false),
                     Text(cardData[7], style: style_donation_notes),
                     SizedBox(height: 10.0),
+                    // TODO: Replace null with user profile data
+                    (cardType != "donor")
+                        ? DonationContactDetails(null, (cardType == "rescuer"))
+                        : SizedBox(),
                     (cardType == "rescuer")
                         ? MainButton(
                             text: "Accept",
@@ -154,6 +158,82 @@ class DonationCard extends StatelessWidget {
                         : SizedBox(),
                   ],
                 ))));
+  }
+}
+
+class DonationContactDetails extends StatelessWidget {
+  final user;
+  final isRescuer;
+
+  DonationContactDetails(this.user, this.isRescuer);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        (isRescuer)
+            ? Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Donor:",
+                  style: style_header_title,
+                ))
+            : SizedBox(),
+        SizedBox(height: (isRescuer) ? 5.0 : 0.0),
+        DonationContactDetailItem(Icons.person, "Juan Dela Cruz"),
+        Divider(color: header_item_color, height: 5),
+        DonationContactDetailItem(
+            Icons.location_on, "Metro Manila, Philippines"),
+        Divider(color: header_item_color, height: 5),
+        DonationContactDetailItem(Icons.phone, "+63 (917) 000 0000"),
+        (isRescuer)
+            ? Column(
+                children: [
+                  SizedBox(height: 10.0),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Pantry:",
+                        style: style_header_title,
+                      )),
+                  SizedBox(height: 5.0),
+                  DonationContactDetailItem(
+                      Icons.person, "Rise Against Hunger"),
+                  Divider(color: header_item_color, height: 5),
+                  DonationContactDetailItem(
+                      Icons.location_on, "Metro Manila, Philippines"),
+                  Divider(color: header_item_color, height: 5),
+                  DonationContactDetailItem(Icons.phone, "+63 (917) 000 0000"),
+                ],
+              )
+            : SizedBox(),
+        SizedBox(height: 10.0),
+      ],
+    );
+  }
+}
+
+class DonationContactDetailItem extends StatelessWidget {
+  final IconData icon;
+  final String text;
+
+  DonationContactDetailItem(this.icon, this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+        alignment: Alignment.centerLeft,
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Row(children: [
+            GradientIcon(icon),
+            SizedBox(width: 5),
+            Text(
+              text,
+              style: style_header_item,
+            )
+          ]),
+        ]));
   }
 }
 
