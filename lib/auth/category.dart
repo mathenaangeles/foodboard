@@ -1,6 +1,5 @@
 import 'package:foodboard/constants.dart';
 import 'package:flutter/material.dart';
-
 import 'package:foodboard/utils/auth_service.dart';
 
 import 'package:foodboard/auth/donor.dart';
@@ -17,6 +16,7 @@ class _CategoryState extends State<Category> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: cards_background_color,
       resizeToAvoidBottomInset: true,
       body: Center(
         child: SingleChildScrollView(
@@ -41,7 +41,7 @@ class _CategoryState extends State<Category> {
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontWeight: FontWeight.w800, 
-                                color: light_green, 
+                                color: dark_green, 
                                 fontSize: 28)
                             ),
                           ), 
@@ -61,7 +61,7 @@ class _CategoryState extends State<Category> {
                             elevation: 5.0, 
                             clipBehavior: Clip.antiAlias,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: InkWell(
                               splashColor: Colors.green.withAlpha(30),
@@ -88,7 +88,7 @@ class _CategoryState extends State<Category> {
                                         'Food Donor',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w800, 
-                                          color: light_green, 
+                                          color: dark_green, 
                                           fontSize: 18),
                                       ),
                                     ), 
@@ -111,7 +111,7 @@ class _CategoryState extends State<Category> {
                           elevation: 5.0, 
                           clipBehavior: Clip.antiAlias,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
                           child: InkWell(
                             splashColor: Colors.green.withAlpha(30),
@@ -138,7 +138,7 @@ class _CategoryState extends State<Category> {
                                       'Food Rescuer',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w800, 
-                                        color: light_green, 
+                                        color: dark_green, 
                                         fontSize: 18),
                                     ),
                                   ), 
@@ -161,7 +161,7 @@ class _CategoryState extends State<Category> {
                           elevation: 5.0,  
                           clipBehavior: Clip.antiAlias,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
                           child: InkWell(
                             splashColor: Colors.green.withAlpha(30),
@@ -188,7 +188,7 @@ class _CategoryState extends State<Category> {
                                         'Food Pantry',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w800, 
-                                          color: light_green, 
+                                          color: dark_green, 
                                           fontSize: 18),
                                       ),
                                     ), 
