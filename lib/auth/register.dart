@@ -8,7 +8,7 @@ import 'package:foodboard/utils/auth_service.dart';
 
 import 'package:foodboard/components/main_button.dart';
 import 'package:foodboard/auth/login.dart';
-import 'package:foodboard/home.dart';
+import 'package:foodboard/auth/category.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -36,16 +36,17 @@ class _RegisterState extends State<Register> {
           Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage("assets/images/auth.jpg"),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.5), BlendMode.darken),
-            )),
+                  image: AssetImage("assets/images/auth.jpg"),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                      Colors.black.withOpacity(0.5), BlendMode.darken),
+              )
+            ),
           ),
           Column(
             children: [
               Expanded(
-                  child: Padding(
+                child: Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.08),
                 child: Column(
@@ -162,7 +163,7 @@ class _RegisterState extends State<Register> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Home(),
+                            builder: (context) => Category(),
                           ),
                           (route) => false,
                         );
