@@ -34,12 +34,20 @@ class HomeDonationsList extends StatelessWidget {
             .where('pantryID', isEqualTo: uid)
             .where('status', isEqualTo: status);
       }
-    } else if (userType == "rescuer")
-      stream = FirebaseFirestore.instance
-          .collection('donations')
-          .where('rescuerID', isEqualTo: uid)
-          .where('status', isEqualTo: status);
-    else
+    } else if (userType == "rescuer") {
+      if (status == "pending") {
+        stream = FirebaseFirestore.instance
+            .collection('donations')
+            .where('rescuerID',
+                isEqualTo: "") // TODO: Change Band-aid solution here
+            .where('status', isEqualTo: "accepted");
+      } else {
+        stream = FirebaseFirestore.instance
+            .collection('donations')
+            .where('rescuerID', isEqualTo: uid)
+            .where('status', isEqualTo: status);
+      }
+    } else
       return Text("Firebase error.");
     return StreamBuilder<QuerySnapshot>(
         stream: stream.snapshots(),
@@ -159,7 +167,9 @@ class DonationCard extends StatelessWidget {
                     (cardType == "rescuer")
                         ? MainButton(
                             text: "Accept",
-                            press: () {},
+                            press: () {
+                              Database.acceptDonationDelivery(uid, donationID);
+                            },
                             gradient: LinearGradient(
                               colors: <Color>[
                                 light_green,

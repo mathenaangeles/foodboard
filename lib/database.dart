@@ -30,4 +30,14 @@ class Database {
         .then((v) => print("Accept success!"))
         .catchError((e) => print("Firebase failed! $e"));
   }
+
+  static Future<void> acceptDonationDelivery(
+      String rescuerID, String donationID) {
+    // TODO: Validation?
+    return donations
+        .doc(donationID)
+        .update({"rescuerID": rescuerID})
+        .then((v) => print("Rescuer accept success!"))
+        .catchError((e) => print("Firebase failed! $e"));
+  }
 }
