@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:foodboard/constants.dart';
 import 'package:ionicons/ionicons.dart';
@@ -5,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:foodboard/utils/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodboard/auth/category.dart';
 
 import 'package:foodboard/components/main_button.dart';
 import 'package:foodboard/auth/register.dart';
@@ -159,13 +162,32 @@ class _LoginState extends State<Login> {
                               email: _emailController.text.trim(),
                               password: _passwordController.text.trim(),
                             );
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(),
-                          ),
-                          (route) => false,
-                        );
+                        // !!! This checks if the logged in user has properly
+                        // chosen their category:
+                        final firebaseUser = context.watch<User>();
+                        FirebaseFirestore.instance
+                            .collection("users")
+                            .doc(firebaseUser.uid)
+                            .get()
+                            .then((DocumentSnapshot snapshot) {
+                          if (snapshot.exists) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home(),
+                              ),
+                              (route) => false,
+                            );
+                          } else {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Register(),
+                              ),
+                              (route) => false,
+                            );
+                          }
+                        });
                       },
                       text: "Sign In",
                       gradient: LinearGradient(
