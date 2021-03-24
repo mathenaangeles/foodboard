@@ -137,8 +137,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           end: Alignment.bottomCenter)),
                 ),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => DonationForm()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DonationForm(user.uid)));
                 },
               )
             : SizedBox());

@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:foodboard/constants.dart';
 import 'package:foodboard/auth/category.dart';
+import 'package:foodboard/database.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,16 +13,77 @@ import 'package:foodboard/components/forms_header.dart';
 import 'package:foodboard/home.dart';
 
 class DonationForm extends StatefulWidget {
+  final uid;
+
+  DonationForm(this.uid);
+
   @override
   _DonationFormState createState() => _DonationFormState();
 }
 
 class _DonationFormState extends State<DonationForm> {
-  final TextEditingController _nameController = TextEditingController();
-  int _value = 1;
+  final TextEditingController _expiryController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _notesController = TextEditingController();
+
+  // TODO: Change this later
+  // Let's use a string value for now
+  // int _value = 1;
+
+  String _category;
+  String _subcategory;
 
   @override
   Widget build(BuildContext context) {
+    var rawCategories = [
+      "Select food category",
+      "Vegetables and fruits",
+      "Grain",
+      "Starchy roots",
+      "Meat",
+      "Dairy",
+      "Other beverages",
+    ];
+    var rawSubcategories = [
+      "Fresh vegetable and fruit",
+      "Frozen vegetable and fruit",
+      "Dried vegetable and fruit",
+      "Fried/Baked vegetable and fruit",
+      "Canned/Bottled vegetable and fruit",
+      "Whole grains, cereals and products",
+      "Noodles or pasta",
+      "Hot or cold cereals",
+      "Bread and cakes",
+      "Biscuits, cookies, or crackers",
+      "Chips",
+      "Flour",
+      "Fresh starchy roots",
+      "Dried starchy roots",
+      "Fried/Baked starchy roots",
+      "Fresh/Frozen meat",
+      "Fresh/Frozen poultry",
+      "Canned meat or poultry",
+      "Canned fish or seafood",
+      "Eggs",
+      "Dried or canned beans and peas",
+      "Nuts and seeds",
+    ]; // TODO: Just expand this list lmao
+
+    var categories = rawCategories.map((element) {
+      return DropdownMenuItem(
+        child: Text(element, style: TextStyle(fontSize: 16)),
+        value: element,
+      );
+    }).toList();
+
+    var subcategories = rawSubcategories.map((element) {
+      return DropdownMenuItem(
+        child: Text(element, style: TextStyle(fontSize: 16)),
+        value: element,
+      );
+    }).toList();
+
     return Scaffold(
         backgroundColor: cards_background_color,
         resizeToAvoidBottomInset: true,
@@ -86,62 +148,12 @@ class _DonationFormState extends State<DonationForm> {
                               Container(
                                 padding: EdgeInsets.only(bottom: 20.0),
                                 child: DropdownButton(
-                                    value: _value,
+                                    value: _category,
                                     isExpanded: true,
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text("Select food category name",
-                                            style: TextStyle(fontSize: 16)),
-                                        value: 1,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text(
-                                            "Vegetables, fruits and products",
-                                            style: TextStyle(fontSize: 16)),
-                                        value: 2,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("Grain and products",
-                                            style: TextStyle(fontSize: 16)),
-                                        value: 3,
-                                      ),
-                                      DropdownMenuItem(
-                                          child: Text("Starchy roots products",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 4),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Meat and other high protein food and products",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 5),
-                                      DropdownMenuItem(
-                                        child: Text(
-                                            "Milks, products and alternatives",
-                                            style: TextStyle(fontSize: 16)),
-                                        value: 6,
-                                      ),
-                                      DropdownMenuItem(
-                                          child: Text("Other beverages",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 7),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Cooking and baking ingredients",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 8),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Prepared food from inspected kitchens",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 9),
-                                      DropdownMenuItem(
-                                          child: Text("Dietary ingredients",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 10),
-                                    ],
+                                    items: categories,
                                     onChanged: (value) {
                                       setState(() {
-                                        _value = value;
+                                        _category = value;
                                       });
                                     }),
                               ),
@@ -160,203 +172,12 @@ class _DonationFormState extends State<DonationForm> {
                                       0.01),
                               Container(
                                 child: DropdownButton(
-                                    value: _value,
+                                    value: _subcategory,
                                     isExpanded: true,
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text(
-                                            "Select food subcategory name",
-                                            style: TextStyle(fontSize: 16)),
-                                        value: 1,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("Fresh vegetable and fruit",
-                                            style: TextStyle(fontSize: 16)),
-                                        value: 2,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text(
-                                            "Frozen vegetable and fruit",
-                                            style: TextStyle(fontSize: 16)),
-                                        value: 3,
-                                      ),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Dried vegetable and fruit",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 4),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Fried/Baked vegetable and fruit",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 5),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Canned/Bottled vegetable and fruit",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 6),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Whole grains, cereals and products",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 7),
-                                      DropdownMenuItem(
-                                          child: Text("Noodles or pasta",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 8),
-                                      DropdownMenuItem(
-                                          child: Text("Hot or cold cereals",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 9),
-                                      DropdownMenuItem(
-                                          child: Text("Bread and cakes",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 10),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Buiscuit, cookies or crackers",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 11),
-                                      DropdownMenuItem(
-                                          child: Text("Chips",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 11),
-                                      DropdownMenuItem(
-                                          child: Text("Flour",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 12),
-                                      DropdownMenuItem(
-                                          child: Text("Fresh starchy roots",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 13),
-                                      DropdownMenuItem(
-                                          child: Text("Frozen starchy roots",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 14),
-                                      DropdownMenuItem(
-                                          child: Text("Dried starchy roots",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 15),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Fried/Baked starchy roots",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 16),
-                                      DropdownMenuItem(
-                                          child: Text("Fresh/Frozen meat",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 17),
-                                      DropdownMenuItem(
-                                          child: Text("Fresh/Frozen poultry",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 18),
-                                      DropdownMenuItem(
-                                          child: Text("Canned meat or poultry",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 19),
-                                      DropdownMenuItem(
-                                          child: Text("Canned fish or seafood",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 20),
-                                      DropdownMenuItem(
-                                          child: Text("Eggs",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 21),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Dried or canned beans and peas",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 22),
-                                      DropdownMenuItem(
-                                        child: Text(
-                                            "Nuts and seeds, and nut and seed butters",
-                                            style: TextStyle(fontSize: 16)),
-                                        value: 23,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("Milk",
-                                            style: TextStyle(fontSize: 16)),
-                                        value: 24,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("Milk products",
-                                            style: TextStyle(fontSize: 16)),
-                                        value: 25,
-                                      ),
-                                      DropdownMenuItem(
-                                          child: Text("Milk alternatives",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 26),
-                                      DropdownMenuItem(
-                                          child: Text("Water",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 27),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Pure coffee bean (unground or ground)",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 28),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Instant coffee and related products",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 29),
-                                      DropdownMenuItem(
-                                          child: Text("Tea",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 30),
-                                      DropdownMenuItem(
-                                          child: Text("Chocolate drink",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 31),
-                                      DropdownMenuItem(
-                                          child: Text("Cooking oil",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 32),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Butter and non-hydronated margarine",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 33),
-                                      DropdownMenuItem(
-                                          child: Text("Condiments",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 34),
-                                      DropdownMenuItem(
-                                          child: Text("Spices and herbs",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 35),
-                                      DropdownMenuItem(
-                                          child: Text("Sauces and dressings",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 36),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Baking powder and baking soda",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 37),
-                                      DropdownMenuItem(
-                                          child: Text("Bread",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 38),
-                                      DropdownMenuItem(
-                                          child: Text("Rice",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 39),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Meat, fish, poultry dishes",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 40),
-                                      DropdownMenuItem(
-                                          child: Text(
-                                              "Vitamin and mineral supplements",
-                                              style: TextStyle(fontSize: 16)),
-                                          value: 41)
-                                    ],
+                                    items: subcategories,
                                     onChanged: (value) {
                                       setState(() {
-                                        _value = value;
+                                        _subcategory = value;
                                       });
                                     }),
                               ),
@@ -398,7 +219,7 @@ class _DonationFormState extends State<DonationForm> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               TextField(
-                                controller: _nameController,
+                                controller: _expiryController,
                                 decoration: InputDecoration(
                                   labelText: "Expiration Date",
                                   labelStyle: TextStyle(
@@ -424,7 +245,7 @@ class _DonationFormState extends State<DonationForm> {
                                   height: MediaQuery.of(context).size.height *
                                       0.02),
                               TextField(
-                                controller: _nameController,
+                                controller: _addressController,
                                 decoration: InputDecoration(
                                   labelText: "Address",
                                   labelStyle: TextStyle(
@@ -450,7 +271,7 @@ class _DonationFormState extends State<DonationForm> {
                                   height: MediaQuery.of(context).size.height *
                                       0.02),
                               TextField(
-                                controller: _nameController,
+                                controller: _weightController,
                                 decoration: InputDecoration(
                                   labelText: "Estimated Weight",
                                   labelStyle: TextStyle(
@@ -472,7 +293,7 @@ class _DonationFormState extends State<DonationForm> {
                                   height: MediaQuery.of(context).size.height *
                                       0.02),
                               TextField(
-                                controller: _nameController,
+                                controller: _notesController,
                                 decoration: InputDecoration(
                                   labelText: "Notes",
                                   labelStyle: TextStyle(
@@ -503,7 +324,19 @@ class _DonationFormState extends State<DonationForm> {
                     top: 950, left: 20, right: 20, bottom: 50),
                 child: MainButton(
                   press: () {
-                    //FIX AUTH -- FIRESTORE
+                    Database.addDonation({
+                      'name':
+                          _category, // For now, let's use the category as the title
+                      'category': _category,
+                      'subcategory': _subcategory,
+                      'donorID': widget.uid,
+                      'expiry': _expiryController.text,
+                      'deliverTo': _addressController.text,
+                      'deliverFrom': _addressController.text,
+                      'estWeight': _weightController.text,
+                      'notes': _notesController.text,
+                      'status': 'pending',
+                    });
                     Navigator.pop(context);
                   },
                   text: "Post Donation",

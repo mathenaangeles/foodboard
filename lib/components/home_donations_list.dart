@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:foodboard/components/main_button.dart';
 import 'package:foodboard/constants.dart';
 import 'package:foodboard/components/gradient_icon.dart';
+import 'package:foodboard/database.dart';
 import 'package:foodboard/loading.dart';
 
 import 'package:intl/intl.dart';
@@ -16,50 +17,22 @@ class HomeDonationsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return FutureBuilder<DocumentSnapshot>(
-    //     future: FirebaseFirestore.instance.collection('users').doc(uid).get(),
-    //     builder:
-    //         (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-    //       if (snapshot.hasError) {
-    //         return Text("Firebase has encountered an error.");
-    //       }
-    //       if (snapshot.connectionState == ConnectionState.done) {
-    //         if (snapshot.data.exists) {
-    //           // If user data is there:
-    //           Map<String, dynamic> user = snapshot.data.data();
-    //           // TODO: Add empty indicator?
-    //           return HomeDonationsListContent(uid, user, status);
-    //         } else {
-    //           return Text("Firebase has encountered an error.");
-    //         }
-    //       }
-    //       return LoadingCards();
-    //     });
-    return HomeDonationsListContent(uid, userType, status);
-  }
-}
-
-class HomeDonationsListContent extends StatelessWidget {
-  final uid;
-  final userType;
-  final status;
-
-  HomeDonationsListContent(this.uid, this.userType, this.status);
-
-  @override
-  Widget build(BuildContext context) {
     var stream;
-    print(userType);
     if (userType == "donor")
       stream = FirebaseFirestore.instance
           .collection('donations')
           .where('donorID', isEqualTo: uid)
           .where('status', isEqualTo: status);
-    else if (userType == "pantry")
+    else if (userType == "pantry") if (status == "pending") {
+      stream = FirebaseFirestore.instance
+          .collection('donations')
+          .where('status', isEqualTo: status); // Show all pending
+    } else {
       stream = FirebaseFirestore.instance
           .collection('donations')
           .where('pantryID', isEqualTo: uid)
           .where('status', isEqualTo: status);
+    }
     else if (userType == "rescuer")
       stream = FirebaseFirestore.instance
           .collection('donations')
@@ -83,7 +56,7 @@ class HomeDonationsListContent extends StatelessWidget {
               color: cards_background_color,
               child: ListView(
                 children: snapshot.data.docs.map((DocumentSnapshot doc) {
-                  return DonationCard(doc.data(), userType);
+                  return DonationCard(doc.id, uid, doc.data(), userType);
                 }).toList(),
               ));
         });
@@ -91,10 +64,12 @@ class HomeDonationsListContent extends StatelessWidget {
 }
 
 class DonationCard extends StatelessWidget {
+  final donationID;
+  final uid;
   final cardData;
   final cardType;
 
-  DonationCard(this.cardData, this.cardType);
+  DonationCard(this.donationID, this.uid, this.cardData, this.cardType);
 
   @override
   Widget build(BuildContext context) {
@@ -124,8 +99,7 @@ class DonationCard extends StatelessWidget {
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      "Donation #" +
-                                          cardData["idNumber"].toString(),
+                                      "Donation ID: " + donationID,
                                       style: style_donation_no,
                                     )),
                                 Align(
@@ -200,7 +174,10 @@ class DonationCard extends StatelessWidget {
                                         MediaQuery.of(context).size.width / 2.7,
                                     child: MainIconButton(
                                         icon: Icons.check_circle,
-                                        press: () {},
+                                        press: () {
+                                          Database.acceptDonation(
+                                              uid, donationID);
+                                        },
                                         gradient: LinearGradient(
                                           colors: <Color>[
                                             light_green,
@@ -309,6 +286,7 @@ class DonationCardFoodTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (tags == null) return Container();
     var foodTags = <Widget>[];
     tags.forEach((element) => foodTags.add(Container(
         padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
