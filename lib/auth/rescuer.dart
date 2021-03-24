@@ -277,7 +277,7 @@ class _RescuerState extends State<Rescuer> {
                                         _deliveryareaController.text,
                                     'transportationType':
                                         _transpoareaController.text,
-                                    'userType': 'donor'
+                                    'userType': 'recuser'
                                   });
                                   Navigator.pushAndRemoveUntil(
                                     context,
