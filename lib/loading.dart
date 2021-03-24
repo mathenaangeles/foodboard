@@ -21,3 +21,13 @@ class LoadingHeader extends StatelessWidget {
         child: SpinKitFadingFour(color: light_green, size: 20.0));
   }
 }
+
+class LoadingCards extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        constraints: BoxConstraints.expand(),
+        color: cards_background_color,
+        child: SpinKitFadingFour(color: light_green, size: 20.0));
+  }
+}

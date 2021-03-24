@@ -1,28 +1,86 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodboard/components/main_button.dart';
 import 'package:foodboard/constants.dart';
 import 'package:foodboard/components/gradient_icon.dart';
+import 'package:foodboard/loading.dart';
 
 import 'package:intl/intl.dart';
 
 class HomeDonationsList extends StatelessWidget {
-  final donations;
-  final userType;
+  final uid;
+  final status;
 
-  HomeDonationsList(this.donations, this.userType);
+  HomeDonationsList(this.uid, this.status);
 
   @override
   Widget build(BuildContext context) {
-    var donationsCards = <Widget>[];
-    donations.forEach(
-        (element) => donationsCards.add(DonationCard(element, userType)));
+    return FutureBuilder<DocumentSnapshot>(
+        future: FirebaseFirestore.instance.collection('users').doc(uid).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text("Firebase has encountered an error.");
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data.exists) {
+              // If user data is there:
+              Map<String, dynamic> user = snapshot.data.data();
+              // TODO: Add empty indicator?
+              return HomeDonationsListContent(uid, user, status);
+            } else {
+              return Text("Firebase has encountered an error.");
+            }
+          }
+          return LoadingCards();
+        });
+  }
+}
 
-    return Container(
-        constraints: BoxConstraints.expand(),
-        color: cards_background_color,
-        child: ListView(
-          children: donationsCards,
-        ));
+class HomeDonationsListContent extends StatelessWidget {
+  final uid;
+  final userData;
+  final status;
+
+  HomeDonationsListContent(this.uid, this.userData, this.status);
+
+  @override
+  Widget build(BuildContext context) {
+    var stream;
+    if (userData["userType"] == "donor")
+      stream = FirebaseFirestore.instance
+          .collection('donations')
+          .where('donorID', isEqualTo: uid);
+    else if (userData["userType"] == "pantry")
+      stream = FirebaseFirestore.instance
+          .collection('donations')
+          .where('pantryID', isEqualTo: uid);
+    else if (userData["userType"] == "rescuer")
+      stream = FirebaseFirestore.instance
+          .collection('donations')
+          .where('rescuerID', isEqualTo: uid);
+    else
+      return Text("Firebase error.");
+    return StreamBuilder<QuerySnapshot>(
+        stream: stream.where('status', isEqualTo: status).snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingCards();
+          }
+
+          return Container(
+              constraints: BoxConstraints.expand(),
+              color: cards_background_color,
+              child: ListView(
+                children: snapshot.data.docs.map((DocumentSnapshot doc) {
+                  return DonationCard(doc.data(), userData["userType"]);
+                }).toList(),
+              ));
+        });
   }
 }
 
@@ -60,19 +118,20 @@ class DonationCard extends StatelessWidget {
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      "Donation #" + cardData[0].toString(),
+                                      "Donation #" +
+                                          cardData["idNumber"].toString(),
                                       style: style_donation_no,
                                     )),
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      cardData[1],
+                                      cardData["name"],
                                       style: style_donation_name,
                                     )),
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      cardData[2],
+                                      cardData["deliverTo"],
                                       style: style_donation_address,
                                     )),
                               ]),
@@ -88,19 +147,19 @@ class DonationCard extends StatelessWidget {
                               : SizedBox(),
                         ]),
                     SizedBox(height: 10.0),
-                    DonationCardFoodTags(cardData[3]),
+                    DonationCardFoodTags(cardData["tags"]),
                     SizedBox(height: 10.0),
                     DonationDetailItem(Icons.warning, "Expiration Date",
-                        DateFormat("d MMMM y").format(cardData[4]), true),
+                        DateFormat("d MMMM y").format(DateTime.now()), true),
                     SizedBox(height: 5.0),
-                    DonationDetailItem(
-                        Icons.location_on, "Address", cardData[5], false),
+                    DonationDetailItem(Icons.location_on, "Pick Up",
+                        cardData["deliverFrom"], false),
                     SizedBox(height: 5.0),
                     DonationDetailItem(
                         // TODO: Change this icon too.
                         Icons.attach_money,
                         "Estimated Weight",
-                        cardData[6].toString() + " kg",
+                        cardData["estWeight"].toString() + " kg",
                         false),
                     SizedBox(height: 5.0),
                     DonationDetailItem(
@@ -109,7 +168,7 @@ class DonationCard extends StatelessWidget {
                         "Notes",
                         "",
                         false),
-                    Text(cardData[7], style: style_donation_notes),
+                    Text(cardData["notes"], style: style_donation_notes),
                     SizedBox(height: 10.0),
                     // TODO: Replace null with user profile data
                     (cardType != "donor")

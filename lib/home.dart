@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodboard/donation_form.dart';
 
 import 'package:provider/provider.dart';
 
@@ -86,10 +87,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               child: new TabBarView(
                 controller: _controller,
                 children: <Widget>[
-                  HomeDonationsList(dummy_data, userType),
-                  HomeDonationsList(dummy_data, userType),
-                  HomeDonationsList(dummy_data, userType),
-                  HomeDonationsList(dummy_data, userType),
+                  HomeDonationsList(user.uid, "pending"),
+                  HomeDonationsList(user.uid, "accepted"),
+                  HomeDonationsList(user.uid, "rejected"),
+                  HomeDonationsList(user.uid, "received"),
                 ],
               ),
             ),
@@ -114,7 +115,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter)),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => DonationForm()));
+                },
               )
             : SizedBox());
   }

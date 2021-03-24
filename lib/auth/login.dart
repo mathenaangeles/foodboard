@@ -198,6 +198,8 @@ class _LoginState extends State<Login> {
                           } else if (e.code == 'wrong-password') {
                             print('Wrong password provided for that user.');
                           }
+                        } on NoSuchMethodError {
+                          print('No user found.');
                         }
                         // !!! This checks if the logged in user has properly
                         // chosen their category:
