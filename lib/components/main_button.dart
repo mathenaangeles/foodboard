@@ -58,7 +58,7 @@ class MainIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.05,
-      width: MediaQuery.of(context).size.width * 0.75,
+      width: MediaQuery.of(context).size.width,
       // ignore: deprecated_member_use
       child: RaisedButton(
         onPressed: press,
