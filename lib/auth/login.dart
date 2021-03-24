@@ -157,37 +157,51 @@ class _LoginState extends State<Login> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                     MainButton(
-                      press: () {
-                        context.read<AuthenticationService>().signIn(
-                              email: _emailController.text.trim(),
-                              password: _passwordController.text.trim(),
-                            );
+                      press: () async {
+                        // context.read<AuthenticationService>().signIn(
+                        //       email: _emailController.text.trim(),
+                        //       password: _passwordController.text.trim(),
+                        //     );
+                        try {
+                          UserCredential userCredential = await FirebaseAuth
+                              .instance
+                              .signInWithEmailAndPassword(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text,
+                          );
+                          FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(userCredential.user.uid)
+                              .get()
+                              .then((DocumentSnapshot snapshot) {
+                            if (snapshot.exists) {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Home(),
+                                ),
+                                (route) => false,
+                              );
+                            } else {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Category(),
+                                ),
+                                (route) => false,
+                              );
+                            }
+                          });
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'user-not-found') {
+                            print('No user found for that email.');
+                          } else if (e.code == 'wrong-password') {
+                            print('Wrong password provided for that user.');
+                          }
+                        }
                         // !!! This checks if the logged in user has properly
                         // chosen their category:
-                        final firebaseUser = context.watch<User>();
-                        FirebaseFirestore.instance
-                            .collection("users")
-                            .doc(firebaseUser.uid)
-                            .get()
-                            .then((DocumentSnapshot snapshot) {
-                          if (snapshot.exists) {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Home(),
-                              ),
-                              (route) => false,
-                            );
-                          } else {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Category(),
-                              ),
-                              (route) => false,
-                            );
-                          }
-                        });
+                        // final firebaseUser = context.watch<User>();
                       },
                       text: "Sign In",
                       gradient: LinearGradient(
