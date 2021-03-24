@@ -3,6 +3,7 @@ import 'package:foodboard/auth/category.dart';
 import 'package:foodboard/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:foodboard/utils/auth_service.dart';
 
@@ -17,8 +18,11 @@ class Donor extends StatefulWidget {
 }
 
 class _DonorState extends State<Donor> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phonenumController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _websiteController = TextEditingController();
+  final TextEditingController _bustypeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +57,7 @@ class _DonorState extends State<Donor> {
                         padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.08,
                           vertical: MediaQuery.of(context).size.height * 0.04),
-                        height: 750,
+                        height: MediaQuery.of(context).size.height * 1.15,
                         width: 380,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all( Radius.circular(30.0)),
@@ -78,17 +82,62 @@ class _DonorState extends State<Donor> {
                                     fontSize: 28),
                               ),
                             ),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                             TextField(
-                              controller: _emailController,
+                              controller: _nameController,
                               decoration: InputDecoration(
-                                labelText: "Professional Field",
+                                labelText: "Full Name",
                                 labelStyle: TextStyle(
                                     color: dark_grey,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 22),
                                 floatingLabelBehavior: FloatingLabelBehavior.always,
-                                hintText: "Enter professional field",
+                                hintText: "Enter your full name",
+                                hintStyle: TextStyle(height: 2, fontSize: 16),
+                                suffixIcon: Icon(
+                                  Icons.account_circle,
+                                  color: dark_green,
+                                  size: 28,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: const BorderSide(color: dark_green),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                            TextField(
+                              controller: _phonenumController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly], //enter numbers only
+                              decoration: InputDecoration(
+                                labelText: "Phone Number",
+                                labelStyle: TextStyle(
+                                    color: dark_grey,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 22),
+                                floatingLabelBehavior: FloatingLabelBehavior.always,
+                                hintText: "Enter your phone number",
+                                hintStyle: TextStyle(height: 2, fontSize: 16),
+                                suffixIcon: Icon(
+                                  Icons.phone,
+                                  color: dark_green,
+                                  size: 28,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: const BorderSide(color: dark_green),
+                                ),
+                              ),
+                            ),                            
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                            TextField(
+                              controller: _nameController,
+                              decoration: InputDecoration(
+                                labelText: "Company Name",
+                                labelStyle: TextStyle(
+                                    color: dark_grey,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 22),
+                                floatingLabelBehavior: FloatingLabelBehavior.always,
+                                hintText: "Enter your company name",
                                 hintStyle: TextStyle(height: 2, fontSize: 16),
                                 suffixIcon: Icon(
                                   Icons.people,
@@ -99,21 +148,21 @@ class _DonorState extends State<Donor> {
                                   borderSide: const BorderSide(color: dark_green),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                            ),  
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                             TextField(
-                              controller: _emailController,
+                              controller: _addressController,
                               decoration: InputDecoration(
-                                labelText: "Rescue Areas",
+                                labelText: "Address",
                                 labelStyle: TextStyle(
                                     color: dark_grey,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 22),
                                 floatingLabelBehavior: FloatingLabelBehavior.always,
-                                hintText: "Enter rescue areas",
+                                hintText: "Enter your address",
                                 hintStyle: TextStyle(height: 2, fontSize: 16),
                                 suffixIcon: Icon(
-                                  Icons.location_city,
+                                  Icons.home,
                                   color: dark_green,
                                   size: 28,
                                 ),
@@ -122,24 +171,20 @@ class _DonorState extends State<Donor> {
                                 ),
                               ),
                             ),
-                            Text(
-                              'Enter the areas you are willing to rescue food from.',
-                              style: TextStyle(color: dark_green, fontSize: 14, fontWeight: FontWeight.w600,)
-                            ),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                             TextField(
-                              controller: _emailController,
+                              controller: _websiteController,
                               decoration: InputDecoration(
-                                labelText: "Delivery Areas",
+                                labelText: "Website",
                                 labelStyle: TextStyle(
                                     color: dark_grey,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 22),
                                 floatingLabelBehavior: FloatingLabelBehavior.always,
-                                hintText: "Enter delivery areas",
+                                hintText: "Enter your website URL",
                                 hintStyle: TextStyle(height: 2, fontSize: 16),
                                 suffixIcon: Icon(
-                                  Icons.drive_eta,
+                                  Icons.link,
                                   color: dark_green,
                                   size: 28,
                                 ),
@@ -147,25 +192,21 @@ class _DonorState extends State<Donor> {
                                   borderSide: const BorderSide(color: dark_green),
                                 ),
                               ),
-                            ),
-                            Text(
-                              'Enter the areas you are willing to deliver food to.',
-                              style: TextStyle(color: dark_green, fontSize: 14, fontWeight: FontWeight.w600,)
-                            ),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                            ),  
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                             TextField(
-                              controller: _emailController,
+                              controller: _bustypeController,
                               decoration: InputDecoration(
-                                labelText: "Means of Transportation",
+                                labelText: "Type of Business",
                                 labelStyle: TextStyle(
                                     color: dark_grey,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 22),
                                 floatingLabelBehavior: FloatingLabelBehavior.always,
-                                hintText: "Enter means of transporation",
+                                hintText: "Enter your type of business",
                                 hintStyle: TextStyle(height: 2, fontSize: 16),
                                 suffixIcon: Icon(
-                                  Icons.shopping_cart,
+                                  Icons.work,
                                   color: dark_green,
                                   size: 28,
                                 ),
@@ -173,14 +214,14 @@ class _DonorState extends State<Donor> {
                                   borderSide: const BorderSide(color: dark_green),
                                 ),
                               ),
-                            ),
+                            ),                                                                                                                                          
                             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                             MainButton(
                               press: () {
-                                context.read<AuthenticationService>().signUp(
-                                      email: _emailController.text.trim(),
-                                      password: _passwordController.text.trim(),
-                                    );
+                                // context.read<AuthenticationService>().signUp(
+                                //       email: _emailController.text.trim(),
+                                //       password: _passwordController.text.trim(),
+                                //     );
                                 Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
@@ -225,7 +266,7 @@ class _DonorState extends State<Donor> {
                 ),
               ),
               FormHeader(
-                title: 'Food Rescuer', 
+                title: 'Food Donor', 
                 subtitle: 'Volunteer to pick up and drop off food donations depending on your availability.', 
                 press: () {
                       Navigator.push(

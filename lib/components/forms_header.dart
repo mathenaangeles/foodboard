@@ -19,7 +19,7 @@ class FormHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 100, left: 28),
+            padding: const EdgeInsets.only(top: 80, left: 28),
             child: Row(
               children: [
                 IconButton(
