@@ -23,17 +23,18 @@ class HomeDonationsList extends StatelessWidget {
           .collection('donations')
           .where('donorID', isEqualTo: uid)
           .where('status', isEqualTo: status);
-    else if (userType == "pantry") if (status == "pending") {
-      stream = FirebaseFirestore.instance
-          .collection('donations')
-          .where('status', isEqualTo: status); // Show all pending
-    } else {
-      stream = FirebaseFirestore.instance
-          .collection('donations')
-          .where('pantryID', isEqualTo: uid)
-          .where('status', isEqualTo: status);
-    }
-    else if (userType == "rescuer")
+    else if (userType == "pantry") {
+      if (status == "pending") {
+        stream = FirebaseFirestore.instance
+            .collection('donations')
+            .where('status', isEqualTo: status); // Show all pending
+      } else {
+        stream = FirebaseFirestore.instance
+            .collection('donations')
+            .where('pantryID', isEqualTo: uid)
+            .where('status', isEqualTo: status);
+      }
+    } else if (userType == "rescuer")
       stream = FirebaseFirestore.instance
           .collection('donations')
           .where('rescuerID', isEqualTo: uid)
@@ -152,7 +153,8 @@ class DonationCard extends StatelessWidget {
                     SizedBox(height: 10.0),
                     // TODO: Replace null with user profile data
                     (cardType != "donor")
-                        ? DonationContactDetails(null, (cardType == "rescuer"))
+                        ? DonationContactDetails(
+                            cardData, (cardType == "rescuer"))
                         : SizedBox(),
                     (cardType == "rescuer")
                         ? MainButton(
@@ -165,7 +167,7 @@ class DonationCard extends StatelessWidget {
                               ],
                             ))
                         : SizedBox(),
-                    (cardType == "pantry")
+                    (cardType == "pantry" && cardData["status"] == "pending")
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -204,10 +206,10 @@ class DonationCard extends StatelessWidget {
 }
 
 class DonationContactDetails extends StatelessWidget {
-  final user;
+  final cardData;
   final isRescuer;
 
-  DonationContactDetails(this.user, this.isRescuer);
+  DonationContactDetails(this.cardData, this.isRescuer);
 
   @override
   Widget build(BuildContext context) {
@@ -222,12 +224,7 @@ class DonationContactDetails extends StatelessWidget {
                 ))
             : SizedBox(),
         SizedBox(height: (isRescuer) ? 5.0 : 0.0),
-        DonationContactDetailItem(Icons.person, "Juan Dela Cruz"),
-        Divider(color: header_item_color, height: 5),
-        DonationContactDetailItem(
-            Icons.location_on, "Metro Manila, Philippines"),
-        Divider(color: header_item_color, height: 5),
-        DonationContactDetailItem(Icons.phone, "+63 (917) 000 0000"),
+        DonationContactDetailSection(cardData["donorID"]),
         (isRescuer)
             ? Column(
                 children: [
@@ -239,18 +236,46 @@ class DonationContactDetails extends StatelessWidget {
                         style: style_header_title,
                       )),
                   SizedBox(height: 5.0),
-                  DonationContactDetailItem(
-                      Icons.person, "Rise Against Hunger"),
-                  Divider(color: header_item_color, height: 5),
-                  DonationContactDetailItem(
-                      Icons.location_on, "Metro Manila, Philippines"),
-                  Divider(color: header_item_color, height: 5),
-                  DonationContactDetailItem(Icons.phone, "+63 (917) 000 0000"),
+                  DonationContactDetailSection(cardData["pantryID"]),
                 ],
               )
             : SizedBox(),
         SizedBox(height: 10.0),
       ],
+    );
+  }
+}
+
+class DonationContactDetailSection extends StatelessWidget {
+  final String uid;
+
+  DonationContactDetailSection(this.uid);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<DocumentSnapshot>(
+      future: FirebaseFirestore.instance.collection("users").doc(uid).get(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text("Firebase Error");
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          Map<String, dynamic> user = snapshot.data.data();
+          return Column(
+            children: [
+              DonationContactDetailItem(Icons.person, user["displayName"]),
+              Divider(color: header_item_color, height: 5),
+              DonationContactDetailItem(Icons.location_on, user["address"]),
+              Divider(color: header_item_color, height: 5),
+              DonationContactDetailItem(Icons.phone, user["phoneNumber"]),
+            ],
+          );
+        }
+
+        return LoadingHeader();
+      },
     );
   }
 }
