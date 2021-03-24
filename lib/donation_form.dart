@@ -119,7 +119,42 @@ class _DonationFormState extends State<DonationForm> {
                                             style: TextStyle(fontSize: 16)
                                             ),
                                       value: 5
-                                  )
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                            "Milks, products and alternatives",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                    value: 6,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                            "Other beverages",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                    value: 7
+                                  ),
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Cooking and baking ingredients",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 8
+                                  ), 
+                                  DropdownMenuItem(
+                                    child: Text(
+                                            "Prepared food from inspected kitchens",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                    value: 9
+                                  ),
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Dietary ingredients",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 10
+                                  ),                                                                     
                                 ],
                                 onChanged: (value) {
                                   setState(() {
@@ -304,7 +339,140 @@ class _DonationFormState extends State<DonationForm> {
                                             style: TextStyle(fontSize: 16)
                                             ),
                                       value: 22
-                                  ),                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                  ),    
+                                  DropdownMenuItem(
+                                    child: Text(
+                                            "Nuts and seeds, and nut and seed butters",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                    value: 23,
+                                  ),                                  
+                                  DropdownMenuItem(
+                                    child: Text(
+                                            "Milk",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                    value: 24,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                            "Milk products",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                    value: 25,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                            "Milk alternatives",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                    value: 26
+                                  ),
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Water",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 27
+                                  ), 
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Pure coffee bean (unground or ground)",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 28
+                                  ),
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Instant coffee and related products",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 29
+                                  ),  
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Tea",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 30
+                                  ), 
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Chocolate drink",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 31
+                                  ),  
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Cooking oil",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 32
+                                  ),  
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Butter and non-hydronated margarine",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 33
+                                  ), 
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Condiments",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 34
+                                  ),    
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Spices and herbs",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 35
+                                  ),    
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Sauces and dressings",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 36
+                                  ),
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Baking powder and baking soda",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 37
+                                  ),    
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Bread",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 38
+                                  ),    
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Rice",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 39
+                                  ), 
+                                    DropdownMenuItem(
+                                      child: Text(
+                                            "Meat, fish, poultry dishes",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 40
+                                  ), 
+                                  DropdownMenuItem(
+                                      child: Text(
+                                            "Vitamin and mineral supplements",
+                                            style: TextStyle(fontSize: 16)
+                                            ),
+                                      value: 41
+                                  )                                                                                                                                                                                                                                                                                                                                                                                                                                                 
                                 ],
                                 onChanged: (value) {
                                   setState(() {
