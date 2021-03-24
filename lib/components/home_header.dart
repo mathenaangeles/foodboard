@@ -1,24 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:foodboard/constants.dart';
 import 'package:foodboard/components/gradient_icon.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:foodboard/loading.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:intl/intl.dart';
 
 class HomeHeader extends StatelessWidget {
-  final user;
-  final userType;
-  final String dateNow = DateFormat("EEEE, d MMMM y").format(DateTime.now());
-
-  HomeHeader(this.user, this.userType);
+  final User user;
+  HomeHeader(this.user);
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<DocumentSnapshot>(
+        future:
+            FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text("Firebase has encountered an error.");
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data.exists) {
+              // If user data is there:
+              Map<String, dynamic> data = snapshot.data.data();
+              return HomeHeaderContent(user.email, data);
+            }
+            return Text("Firebase has encountered an error.");
+          }
+          return LoadingHeader();
+        });
+  }
+}
+
+class HomeHeaderContent extends StatelessWidget {
+  final email;
+  final userData;
+  final String dateNow = DateFormat("EEEE, d MMMM y").format(DateTime.now());
+
+  HomeHeaderContent(this.email, this.userData);
+
+  @override
+  Widget build(BuildContext context) {
+    var userType = userData["userType"];
+    var phone = userData["phoneNumber"];
+
     var headerItems = <Widget>[
       HeaderTitle(dateNow),
       SizedBox(height: header_spacing / 2),
-      HeaderItem(Icons.email_rounded, user.email),
+      HeaderItem(Icons.email_rounded, email),
       Divider(color: header_item_color),
-      HeaderItem(Icons.local_phone, "+63 (917) 000 0000"),
+      HeaderItem(Icons.local_phone, phone),
       SizedBox(height: header_spacing),
       HeaderTitle("Statistics"),
       SizedBox(height: header_spacing / 2),

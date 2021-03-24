@@ -11,3 +11,13 @@ class Loading extends StatelessWidget {
     return new Scaffold(body: SpinKitRing(color: light_green, size: 50.0));
   }
 }
+
+class LoadingHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: header_background_color,
+        padding: EdgeInsets.all(20),
+        child: SpinKitFadingFour(color: light_green, size: 20.0));
+  }
+}

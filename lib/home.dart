@@ -57,7 +57,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<User>();
-    final userType = "pantry";
+    final userType = "donor";
 
     return new Scaffold(
         body: new Column(
@@ -66,7 +66,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               press: () {},
               uid: user.uid, // TODO: Replace this with user's name
             ),
-            HomeHeader(user, userType),
+            HomeHeader(user),
             Container(
               color: header_background_color,
               child: new TabBar(
