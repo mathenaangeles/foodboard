@@ -1,12 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:foodboard/auth/category.dart';
 import 'package:foodboard/constants.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:foodboard/utils/auth_service.dart';
+
 import 'package:foodboard/components/main_button.dart';
+import 'package:foodboard/components/forms_header.dart';
+
 import 'package:foodboard/home.dart';
 
 class Donor extends StatefulWidget {
@@ -221,7 +223,17 @@ class _DonorState extends State<Donor> {
                     )  
                   ],
                 ),
-              ),  
+              ),
+              FormHeader(
+                title: 'Food Rescuer', 
+                subtitle: 'Volunteer to pick up and drop off food donations depending on your availability.', 
+                press: () {
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Category()),
+                    );
+                  },
+              )
             ] , 
           ),                           
         )
