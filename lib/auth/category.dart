@@ -22,9 +22,6 @@ class _CategoryState extends State<Category> {
         child: SingleChildScrollView(
               child: Stack(
               children: <Widget>[
-                Container(
-                  color: Colors.white
-                ), 
               Column(
                 children: [
                   Container(
