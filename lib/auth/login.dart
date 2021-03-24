@@ -178,7 +178,8 @@ class _LoginState extends State<Login> {
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Home(),
+                                  builder: (context) =>
+                                      Home(snapshot.data()["userType"]),
                                 ),
                                 (route) => false,
                               );

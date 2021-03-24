@@ -335,7 +335,7 @@ class _PantryState extends State<Pantry> {
                                   Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Home(),
+                                      builder: (context) => Home('pantry'),
                                     ),
                                     (route) => false,
                                   );

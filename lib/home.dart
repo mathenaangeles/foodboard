@@ -15,6 +15,10 @@ import 'package:foodboard/components/home_donations_list.dart';
 // Change when back-end is set up.
 // - Carlos
 class Home extends StatefulWidget {
+  final String userType;
+
+  Home(this.userType);
+
   @override
   _HomeState createState() => new _HomeState();
 }
@@ -52,13 +56,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = new TabController(length: 4, vsync: this);
+    _controller = new TabController(
+        length: (widget.userType == "rescuer") ? 3 : 4, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     final user = context.watch<User>();
-    final userType = "donor";
 
     return new Scaffold(
         body: new Column(
@@ -75,28 +79,45 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 labelColor: header_title_color,
                 indicatorColor: light_green,
                 controller: _controller,
-                tabs: [
-                  Tab(text: "Pending"),
-                  Tab(text: "Confirmed"),
-                  Tab(text: "Rejected"),
-                  Tab(text: "Received"),
-                ],
+                tabs: (widget.userType == "rescuer")
+                    ? [
+                        Tab(text: "Pending"),
+                        Tab(text: "Accepted"),
+                        Tab(text: "Received"),
+                      ]
+                    : [
+                        Tab(text: "Pending"),
+                        Tab(text: "Accepted"),
+                        Tab(text: "Rejected"),
+                        Tab(text: "Received"),
+                      ],
               ),
             ),
             new Expanded(
               child: new TabBarView(
                 controller: _controller,
-                children: <Widget>[
-                  HomeDonationsList(user.uid, "pending"),
-                  HomeDonationsList(user.uid, "accepted"),
-                  HomeDonationsList(user.uid, "rejected"),
-                  HomeDonationsList(user.uid, "received"),
-                ],
+                children: (widget.userType == "rescuer")
+                    ? <Widget>[
+                        HomeDonationsList(user.uid, widget.userType, "pending"),
+                        HomeDonationsList(
+                            user.uid, widget.userType, "accepted"),
+                        HomeDonationsList(
+                            user.uid, widget.userType, "received"),
+                      ]
+                    : <Widget>[
+                        HomeDonationsList(user.uid, widget.userType, "pending"),
+                        HomeDonationsList(
+                            user.uid, widget.userType, "accepted"),
+                        HomeDonationsList(
+                            user.uid, widget.userType, "rejected"),
+                        HomeDonationsList(
+                            user.uid, widget.userType, "received"),
+                      ],
               ),
             ),
           ],
         ),
-        floatingActionButton: (userType == "donor")
+        floatingActionButton: (widget.userType == "donor")
             ? FloatingActionButton(
                 child: Container(
                   width: 60,

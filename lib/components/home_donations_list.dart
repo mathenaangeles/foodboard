@@ -9,60 +9,66 @@ import 'package:intl/intl.dart';
 
 class HomeDonationsList extends StatelessWidget {
   final uid;
+  final userType;
   final status;
 
-  HomeDonationsList(this.uid, this.status);
+  HomeDonationsList(this.uid, this.userType, this.status);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('users').doc(uid).get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text("Firebase has encountered an error.");
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.data.exists) {
-              // If user data is there:
-              Map<String, dynamic> user = snapshot.data.data();
-              // TODO: Add empty indicator?
-              return HomeDonationsListContent(uid, user, status);
-            } else {
-              return Text("Firebase has encountered an error.");
-            }
-          }
-          return LoadingCards();
-        });
+    // return FutureBuilder<DocumentSnapshot>(
+    //     future: FirebaseFirestore.instance.collection('users').doc(uid).get(),
+    //     builder:
+    //         (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+    //       if (snapshot.hasError) {
+    //         return Text("Firebase has encountered an error.");
+    //       }
+    //       if (snapshot.connectionState == ConnectionState.done) {
+    //         if (snapshot.data.exists) {
+    //           // If user data is there:
+    //           Map<String, dynamic> user = snapshot.data.data();
+    //           // TODO: Add empty indicator?
+    //           return HomeDonationsListContent(uid, user, status);
+    //         } else {
+    //           return Text("Firebase has encountered an error.");
+    //         }
+    //       }
+    //       return LoadingCards();
+    //     });
+    return HomeDonationsListContent(uid, userType, status);
   }
 }
 
 class HomeDonationsListContent extends StatelessWidget {
   final uid;
-  final userData;
+  final userType;
   final status;
 
-  HomeDonationsListContent(this.uid, this.userData, this.status);
+  HomeDonationsListContent(this.uid, this.userType, this.status);
 
   @override
   Widget build(BuildContext context) {
     var stream;
-    if (userData["userType"] == "donor")
+    print(userType);
+    if (userType == "donor")
       stream = FirebaseFirestore.instance
           .collection('donations')
-          .where('donorID', isEqualTo: uid);
-    else if (userData["userType"] == "pantry")
+          .where('donorID', isEqualTo: uid)
+          .where('status', isEqualTo: status);
+    else if (userType == "pantry")
       stream = FirebaseFirestore.instance
           .collection('donations')
-          .where('pantryID', isEqualTo: uid);
-    else if (userData["userType"] == "rescuer")
+          .where('pantryID', isEqualTo: uid)
+          .where('status', isEqualTo: status);
+    else if (userType == "rescuer")
       stream = FirebaseFirestore.instance
           .collection('donations')
-          .where('rescuerID', isEqualTo: uid);
+          .where('rescuerID', isEqualTo: uid)
+          .where('status', isEqualTo: status);
     else
       return Text("Firebase error.");
     return StreamBuilder<QuerySnapshot>(
-        stream: stream.where('status', isEqualTo: status).snapshots(),
+        stream: stream.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
@@ -77,7 +83,7 @@ class HomeDonationsListContent extends StatelessWidget {
               color: cards_background_color,
               child: ListView(
                 children: snapshot.data.docs.map((DocumentSnapshot doc) {
-                  return DonationCard(doc.data(), userData["userType"]);
+                  return DonationCard(doc.data(), userType);
                 }).toList(),
               ));
         });

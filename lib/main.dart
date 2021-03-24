@@ -69,10 +69,8 @@ class Main extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.data.exists) {
               // If user data is there:
-              print("Data exists!");
-              Map<String, dynamic> data = snapshot.data.data();
-              print(data);
-              return Home();
+              Map<String, dynamic> user = snapshot.data.data();
+              return Home(user["userType"]);
             }
             return Category();
           }

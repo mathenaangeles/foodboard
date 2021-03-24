@@ -277,12 +277,12 @@ class _RescuerState extends State<Rescuer> {
                                         _deliveryareaController.text,
                                     'transportationType':
                                         _transpoareaController.text,
-                                    'userType': 'recuser'
+                                    'userType': 'rescuer'
                                   });
                                   Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Home(),
+                                      builder: (context) => Home('rescuer'),
                                     ),
                                     (route) => false,
                                   );
