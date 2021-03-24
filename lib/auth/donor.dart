@@ -51,7 +51,7 @@ class _DonorState extends State<Donor> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [            
                   Padding(
-                    padding: EdgeInsets.only(top: 250, left:25),
+                    padding: EdgeInsets.only(top: 250, left:  MediaQuery.of(context).size.width * 0.04),
                     child: Container(
                         margin: const EdgeInsets.only(bottom: 10.0),
                         padding: EdgeInsets.symmetric(
