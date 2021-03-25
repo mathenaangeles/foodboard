@@ -353,7 +353,10 @@ class _DonationFormState extends State<DonationForm> {
                   press: () {
                     Database.addDonation({
                       'name':
-                          _category, // For now, let's use the category as the title
+                          _category,
+                      'subcat':
+                        _subcategory,
+                       // For now, let's use the category as the title
                       'category': _category,
                       'subcategory': _subcategory,
                       'donorID': widget.uid,

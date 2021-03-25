@@ -120,6 +120,12 @@ class DonationCard extends StatelessWidget {
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
+                                      cardData["subcat"],
+                                      style: style_donation_food_tag,
+                                    )),                                    
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
                                       cardData["deliverTo"],
                                       style: style_donation_address,
                                     )),
@@ -136,7 +142,7 @@ class DonationCard extends StatelessWidget {
                               : SizedBox(),
                         ]),
                     SizedBox(height: 10.0),
-                    DonationCardFoodTags(cardData["tags"]),
+                    // DonationCardFoodTags(cardData["tags"]),
                     SizedBox(height: 10.0),
                     DonationDetailItem(Icons.warning, "Expiration Date",
                         DateFormat("d MMMM y").format(DateTime.now()), true),
@@ -334,7 +340,7 @@ class DonationCardFoodTags extends StatelessWidget {
           borderRadius: BorderRadius.circular(100),
         ),
         child: Text(
-          element,
+          this.tags,
           style: style_donation_food_tag,
         ))));
 
