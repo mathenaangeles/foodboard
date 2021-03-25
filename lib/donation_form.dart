@@ -26,7 +26,8 @@ class _DonationFormState extends State<DonationForm> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
-
+  final TextEditingController _dateController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
   // TODO: Change this later
   // Let's use a string value for now
   // int _value = 1;
@@ -46,6 +47,7 @@ class _DonationFormState extends State<DonationForm> {
       "Other beverages",
     ];
     var rawSubcategories = [
+      "Select food subcategory",
       "Fresh vegetable and fruit",
       "Frozen vegetable and fruit",
       "Dried vegetable and fruit",
@@ -83,6 +85,21 @@ class _DonationFormState extends State<DonationForm> {
         value: element,
       );
     }).toList();
+
+    _selectDate(BuildContext context) async {
+      final DateTime picked = await showDatePicker(
+          context: context,
+          initialDate: selectedDate,
+          firstDate: DateTime(2019, 8),
+          lastDate: DateTime(2100));
+      if (picked != null && picked != selectedDate)
+        setState(() {
+          selectedDate = picked;
+          var date =
+              "${picked.toLocal().day}/${picked.toLocal().month}/${picked.toLocal().year}";
+          _dateController.text = date;
+        });
+    }
 
     return Scaffold(
         backgroundColor: cards_background_color,
@@ -218,29 +235,39 @@ class _DonationFormState extends State<DonationForm> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              TextField(
-                                controller: _expiryController,
-                                decoration: InputDecoration(
-                                  labelText: "Expiration Date",
-                                  labelStyle: TextStyle(
-                                      color: dark_grey,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 22),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  hintText: "Enter the expiration date",
-                                  hintStyle: TextStyle(height: 2, fontSize: 16),
-                                  suffixIcon: Icon(
-                                    Icons.calendar_today,
-                                    color: dark_green,
-                                    size: 28,
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: dark_green),
+                              GestureDetector(
+                                onTap: () => _selectDate(context),
+                                child: AbsorbPointer(
+                                  child: TextFormField(
+                                    controller: _dateController,
+                                    decoration: InputDecoration(
+                                      labelText: "Date",
+                                      labelStyle: TextStyle(
+                                        color: dark_grey, 
+                                        fontWeight: FontWeight.w600, 
+                                        fontSize: 22
+                                      ),
+                                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                                      hintText: "Enter your address for pick up",
+                                      hintStyle: TextStyle(height: 2, fontSize: 16),
+                                      suffixIcon: Icon(
+                                        Icons.calendar_today,
+                                        color: dark_green,
+                                        size: 28,
+                                      ), 
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            const BorderSide(color: dark_green),
+                                      ),                                                                            
+                                    ),
+                                    validator: (value) {
+                                      if (value.isEmpty)
+                                        return "Please enter a date for your task";
+                                      return null;
+                                    },
                                   ),
                                 ),
-                              ),
+                              ),                              
                               SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.02),
