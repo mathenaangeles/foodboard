@@ -111,16 +111,20 @@ class DonationCard extends StatelessWidget {
                                       "Donation ID: " + donationID,
                                       style: style_donation_no,
                                     )),
+                                Container(
+                                  width: 320,
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        cardData["name"],
+                                        style: style_donation_name,
+                                      ),
+                                  ),
+                                ),
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      cardData["name"],
-                                      style: style_donation_name,
-                                    )),
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      cardData["subcat"],
+                                      cardData["subcategory"],
                                       style: style_donation_food_tag,
                                     )),                                    
                                 Align(
