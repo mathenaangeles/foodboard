@@ -24,22 +24,31 @@ class HomeTitleBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          context.read<AuthenticationService>().signOut();
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Login(),
+    return uid == null
+        ? Center(child: CircularProgressIndicator())
+        : Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(child: Center(child: GetUserDisplayName(uid))),
+                IconButton(
+                    padding: EdgeInsets.all(0.0),
+                    icon: Icon(Icons.logout, color: Colors.white),
+                    onPressed: () {
+                      context.read<AuthenticationService>().signOut();
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Login(),
+                        ),
+                        (route) => false,
+                      );
+                    }),
+              ],
             ),
-            (route) => false,
-          );
-        },
-        child: Container(
-            child: Center(child: GetUserDisplayName(uid)),
             decoration: BoxDecoration(gradient: gradient),
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            height: MediaQuery.of(context).padding.top + barHeight));
+            height: MediaQuery.of(context).padding.top + barHeight);
   }
 }
 
@@ -47,26 +56,27 @@ class GetUserDisplayName extends StatelessWidget {
   final String uid;
   final style =
       TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700);
-
   GetUserDisplayName(this.uid);
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<DocumentSnapshot>(
-      future: FirebaseFirestore.instance.collection("users").doc(uid).get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text("Firebase Error", style: style);
-        }
+    return uid == null
+        ? Center(child: CircularProgressIndicator())
+        : FutureBuilder<DocumentSnapshot>(
+            future:
+                FirebaseFirestore.instance.collection("users").doc(uid).get(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text("Firebase Error", style: style);
+              }
 
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data.data();
-          return Text("${data['displayName']}", style: style);
-        }
+              if (snapshot.connectionState == ConnectionState.done) {
+                Map<String, dynamic> data = snapshot.data.data();
+                return Text("${data['displayName']}", style: style);
+              }
 
-        return Text("...", style: style);
-      },
-    );
+              return Text("...", style: style);
+            },
+          );
   }
 }

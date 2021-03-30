@@ -98,53 +98,60 @@ class DonationCard extends StatelessWidget {
                 padding: EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "Donation ID: " + donationID,
-                                      style: style_donation_no,
-                                    )),
-                                Container(
-                                  width: 320,
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        cardData["name"],
-                                        style: style_donation_name,
-                                      ),
-                                  ),
+                    Wrap(children: [
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Donation ID: " + donationID,
+                                  style: style_donation_no,
+                                )),
+                            Container(
+                              width: 320,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  cardData["name"],
+                                  style: style_donation_name,
                                 ),
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      cardData["subcategory"],
-                                      style: style_donation_food_tag,
-                                    )),                                    
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      cardData["deliverTo"],
-                                      style: style_donation_address,
-                                    )),
-                              ]),
-                          // Only include edit button if donor
-                          (cardType == "donor")
-                              ? IconButton(
-                                  splashRadius: 20.0,
-                                  padding: EdgeInsets.all(0.0),
-                                  onPressed: () {},
-                                  icon: Icon(Icons.edit,
-                                      color: header_item_color),
-                                )
-                              : SizedBox(),
-                        ]),
+                              ),
+                            ),
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  cardData["subcategory"],
+                                  style: style_donation_food_tag,
+                                )),
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  cardData["deliverTo"],
+                                  style: style_donation_address,
+                                )),
+                          ]),
+                      // Uncomment this once the edit feature has been implemented. - Mathena
+                      // (cardType == "donor")
+                      //     ? InkWell(
+                      //         child: RichText(
+                      //           text: TextSpan(
+                      //             children: [
+                      //               TextSpan(
+                      //                   text: "Edit ",
+                      //                   style: TextStyle(
+                      //                       color: header_item_color)),
+                      //               WidgetSpan(
+                      //                 child: Icon(Icons.edit,
+                      //                     color: header_item_color, size: 18),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //         onTap: () {},
+                      //       )
+                      //     : SizedBox(),
+                    ]),
                     SizedBox(height: 10.0),
                     // DonationCardFoodTags(cardData["tags"]),
                     SizedBox(height: 10.0),
