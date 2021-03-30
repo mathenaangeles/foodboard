@@ -366,6 +366,8 @@ class _DonationFormState extends State<DonationForm> {
                               'category': _category,
                               'subcategory': _subcategory,
                               'donorID': widget.uid,
+                              'pantryID': "",
+                              'rescuerID': "",
                               'expiry': _expiryController.text,
                               'deliverTo': _addressController.text,
                               'deliverFrom': _addressController.text,

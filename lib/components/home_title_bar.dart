@@ -27,28 +27,30 @@ class HomeTitleBar extends StatelessWidget {
     return uid == null
         ? Center(child: CircularProgressIndicator())
         : Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(child: Center(child: GetUserDisplayName(uid))),
-                IconButton(
-                    padding: EdgeInsets.all(0.0),
-                    icon: Icon(Icons.logout, color: Colors.white),
-                    onPressed: () {
-                      context.read<AuthenticationService>().signOut();
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Login(),
-                        ),
-                        (route) => false,
-                      );
-                    }),
-              ],
-            ),
             decoration: BoxDecoration(gradient: gradient),
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            height: MediaQuery.of(context).padding.top + barHeight);
+            height: MediaQuery.of(context).padding.top + barHeight,
+            child: Stack(children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(child: Center(child: GetUserDisplayName(uid))),
+                ],
+              ),
+              IconButton(
+                  padding: EdgeInsets.all(0.0),
+                  icon: Icon(Icons.logout, color: Colors.white),
+                  onPressed: () {
+                    context.read<AuthenticationService>().signOut();
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Login(),
+                      ),
+                      (route) => false,
+                    );
+                  }),
+            ]));
   }
 }
 
