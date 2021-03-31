@@ -65,7 +65,8 @@ class HomeDonationsList extends StatelessWidget {
               color: cards_background_color,
               child: ListView(
                 children: snapshot.data.docs.map((DocumentSnapshot doc) {
-                  return DonationCard(doc.id, uid, doc.data(), userType);
+                  return DonationCard(
+                      doc.id, uid, doc.data(), userType, status);
                 }).toList(),
               ));
         });
@@ -77,8 +78,10 @@ class DonationCard extends StatelessWidget {
   final uid;
   final cardData;
   final cardType;
+  final status;
 
-  DonationCard(this.donationID, this.uid, this.cardData, this.cardType);
+  DonationCard(
+      this.donationID, this.uid, this.cardData, this.cardType, this.status);
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +184,7 @@ class DonationCard extends StatelessWidget {
                         ? DonationContactDetails(
                             cardData, (cardType == "rescuer"))
                         : SizedBox(),
-                    (cardType == "rescuer")
+                    (cardType == "rescuer" && status == "pending")
                         ? MainButton(
                             text: "Accept",
                             press: () {
