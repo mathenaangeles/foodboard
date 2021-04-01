@@ -1,24 +1,28 @@
 
 # Foodboard
 
-Foodboard is a cross-platform mobile application that automates local food donation systems. It is built with **Flutter** and **Firebase**.
+Foodboard is a cross-platform mobile application that automates local food donation systems. It is built with **Flutter** and **Firebase**. This projects aims to drive action towards [**SDG 2: Zero Hunger**](https://www.un.org/sustainabledevelopment/hunger/) and [**SDG 12: Responsible Consumption and Production**](https://www.un.org/sustainabledevelopment/sustainable-consumption-production/). This solution was inspired by the massive food waste problem in Metro Manila wherein an estimated 2,000 tons of food are thrown away daily. Meanwhile, one in three Filipinos who live below the poverty line continue to struggle with lack of food security.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Make sure that you have Flutter set up with the respective editor plugins for [Android Studio](https://developer.android.com/studio) or [Visual Studio Code](https://code.visualstudio.com/). Check the [online documentation](https://flutter.dev/docs) for more information.
 
 ## Installation
 1. Open a simulator. Type `open -a simulator` if you're working on a Mac. Open a virtual device with AVD Manager to test it with an Android emulator.
 2. Run `flutter run`.
 
+## Usage
 
+Users can register for Foodboard as a **food donor**, a **food rescuer**, or a **food pantry**. They will need to input addtional information relevant to those specific roles in order to finish creating their account. 
 
+#### Food Donor
+
+Food donors can help support underpriviledged communities by sending them their excess supplies. They can simply post details of their inventory on FoodBoard and easily connect to third-party organizations who can route their donations to those in need.
+
+#### Food Rescuer
+
+Food rescuers can volunteer to recover food that would otherwise be wasted and transport them to food banks and other charitable organizations. They can choose among the donations already accepted by food pantries at their convenience.
+
+#### Food Pantry
+
+Food pantries can browse donations posted on FoodBoard and accept them depending on local demand. They can subsequently receive said donations once a food rescuer has successfully delivered it to the designated location. 
