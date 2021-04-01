@@ -16,7 +16,7 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-1. Open a simulator. Type `open -a simulator` if you're working on a Mac.
+1. Open a simulator. Type `open -a simulator` if you're working on a Mac. Open a virtual device with AVD Manager to test it with an Android emulator.
 2. Run `flutter run`.
 
 
