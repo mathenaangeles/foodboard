@@ -1,7 +1,7 @@
 
 # Foodboard
 
-Foodboard is a cross-platform mobile application that automates local food donation systems. It is built with Flutter and Firebase.
+Foodboard is a cross-platform mobile application that automates local food donation systems. It is built with **Flutter** and **Firebase**.
 
 ## Getting Started
 
