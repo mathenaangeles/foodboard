@@ -8,6 +8,8 @@ import 'package:foodboard/loading.dart';
 
 import 'package:intl/intl.dart';
 
+import '../donation_form.dart';
+
 class HomeDonationsList extends StatelessWidget {
   final uid;
   final userType;
@@ -116,7 +118,7 @@ class DonationCard extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  cardData["name"],
+                                  cardData["category"],
                                   style: style_donation_name,
                                 ),
                               ),
@@ -134,34 +136,14 @@ class DonationCard extends StatelessWidget {
                                   style: style_donation_address,
                                 )),
                           ]),
-                      // Uncomment this once the edit feature has been implemented. - Mathena
-                      // (cardType == "donor")
-                      //     ? InkWell(
-                      //         child: RichText(
-                      //           text: TextSpan(
-                      //             children: [
-                      //               TextSpan(
-                      //                   text: "Edit ",
-                      //                   style: TextStyle(
-                      //                       color: header_item_color)),
-                      //               WidgetSpan(
-                      //                 child: Icon(Icons.edit,
-                      //                     color: header_item_color, size: 18),
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ),
-                      //         onTap: () {},
-                      //       )
-                      //     : SizedBox(),
                     ]),
-                    SizedBox(height: 10.0),
+                    // SizedBox(height: 10.0),
                     // DonationCardFoodTags(cardData["tags"]),
                     SizedBox(height: 10.0),
                     DonationDetailItem(Icons.warning, "Expiration Date",
-                        DateFormat("d MMMM y").format(DateTime.now()), true),
+                        cardData["expiry"], true),
                     SizedBox(height: 5.0),
-                    DonationDetailItem(Icons.location_on, "Pick Up",
+                    DonationDetailItem(Icons.location_on, "Pick-Up Address",
                         cardData["deliverFrom"], false),
                     SizedBox(height: 5.0),
                     DonationDetailItem(
@@ -171,15 +153,67 @@ class DonationCard extends StatelessWidget {
                         cardData["estWeight"].toString() + " kg",
                         false),
                     SizedBox(height: 5.0),
-                    DonationDetailItem(
-                        // TODO: Change this icon too.
-                        Icons.note,
-                        "Notes",
-                        "",
-                        false),
-                    Text(cardData["notes"], style: style_donation_notes),
+                    DonationDetailItem(Icons.note, "Notes", "", false),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        cardData["notes"],
+                        style: style_donation_notes,
+                      ),
+                    ),
                     SizedBox(height: 10.0),
-                    // TODO: Replace null with user profile data
+                    (cardType == "donor")
+                        ? Align(
+                            alignment: Alignment.centerLeft,
+                            child: InkWell(
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: header_item_color,
+                                        size: 18,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                        text: "Edit Donation",
+                                        style: TextStyle(
+                                            color: header_item_color,
+                                            decoration:
+                                                TextDecoration.underline)),
+                                  ],
+                                ),
+                              ),
+                              onTap: () {
+                                FirebaseFirestore.instance
+                                    .collection("donations")
+                                    .doc(donationID)
+                                    .get()
+                                    .then((DocumentSnapshot snapshot) {
+                                  if (snapshot.exists) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => DonationForm(
+                                                  uid,
+                                                  true,
+                                                  donationID,
+                                                  snapshot.data()["category"],
+                                                  snapshot
+                                                      .data()["subcategory"],
+                                                  snapshot.data()["expiry"],
+                                                  snapshot
+                                                      .data()["deliverFrom"],
+                                                  snapshot.data()["estWeight"],
+                                                  snapshot.data()["notes"],
+                                                )));
+                                  } else {}
+                                });
+                              },
+                            ),
+                          )
+                        : SizedBox(),
                     (cardType != "donor")
                         ? DonationContactDetails(
                             cardData, (cardType == "rescuer"))
@@ -204,8 +238,20 @@ class DonationCard extends StatelessWidget {
                                 Container(
                                     width:
                                         MediaQuery.of(context).size.width / 2.7,
-                                    child: MainIconButton(
-                                        icon: Icons.check_circle,
+                                    // child: MainIconButton(
+                                    //     icon: Icons.check_circle,
+                                    //     press: () {
+                                    //       Database.acceptDonation(
+                                    //           uid, donationID);
+                                    //     },
+                                    //     gradient: LinearGradient(
+                                    //       colors: <Color>[
+                                    //         light_green,
+                                    //         dark_green,
+                                    //       ],
+                                    //     ))
+                                    child: MainTextButton(
+                                        text: "Accept",
                                         press: () {
                                           Database.acceptDonation(
                                               uid, donationID);
@@ -219,9 +265,21 @@ class DonationCard extends StatelessWidget {
                                 Container(
                                     width:
                                         MediaQuery.of(context).size.width / 2.7,
-                                    child: MainIconButton(
-                                        icon: Icons.remove_circle,
-                                        press: () {},
+                                    // child: MainIconButton(
+                                    //     icon: Icons.remove_circle,
+                                    //     press: () {},
+                                    //     gradient: LinearGradient(
+                                    //       colors: <Color>[
+                                    //         light_red,
+                                    //         dark_red,
+                                    //       ],
+                                    //     )),
+                                    child: MainTextButton(
+                                        text: "Reject",
+                                        press: () {
+                                          Database.rejectDonation(
+                                              uid, donationID);
+                                        },
                                         gradient: LinearGradient(
                                           colors: <Color>[
                                             light_red,
@@ -296,9 +354,9 @@ class DonationContactDetailSection extends StatelessWidget {
           return Column(
             children: [
               DonationContactDetailItem(Icons.person, user["displayName"]),
-              Divider(color: header_item_color, height: 5),
-              DonationContactDetailItem(Icons.location_on, user["address"]),
-              Divider(color: header_item_color, height: 5),
+              Divider(color: header_item_color, height: 10),
+              DonationContactDetailItem(Icons.home, user["address"]),
+              Divider(color: header_item_color, height: 10),
               DonationContactDetailItem(Icons.phone, user["phoneNumber"]),
             ],
           );

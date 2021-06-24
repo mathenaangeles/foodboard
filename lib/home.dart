@@ -114,7 +114,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DonationForm(user.uid)));
+                              builder: (context) =>
+                                  DonationForm(user.uid, false)));
                     },
                   )
                 : SizedBox());

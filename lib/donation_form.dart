@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:foodboard/constants.dart';
 import 'package:foodboard/database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:foodboard/components/main_button.dart';
 import 'package:foodboard/components/forms_header.dart';
@@ -10,48 +11,69 @@ import 'constants.dart';
 
 class DonationForm extends StatefulWidget {
   final uid;
+  final bool isUpdating;
+  final donationID;
+  final donationCategory;
+  final donationSubcategory;
+  final donationExpiry;
+  final donationAddress;
+  final donationWeight;
+  final donationNotes;
 
-  DonationForm(this.uid);
+  DonationForm(
+    this.uid,
+    this.isUpdating, [
+    this.donationID,
+    this.donationCategory = "",
+    this.donationSubcategory = "",
+    this.donationExpiry = "",
+    this.donationAddress = "",
+    this.donationWeight = "",
+    this.donationNotes = "",
+  ]);
 
   @override
   _DonationFormState createState() => _DonationFormState();
 }
 
 class _DonationFormState extends State<DonationForm> {
-  final TextEditingController _expiryController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _notesController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
   DateTime selectedDate = DateTime.now();
-  // TODO: Change this later
-  // Let's use a string value for now
-  // int _value = 1;
-
   String _category = "Select food category";
   String _subcategory = "Select food subcategory";
+  TextEditingController _addressController = TextEditingController();
+  TextEditingController _weightController = TextEditingController();
+  TextEditingController _notesController = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isUpdating) {
+      _category = widget.donationCategory;
+      _subcategory = widget.donationSubcategory;
+      _addressController = TextEditingController(text: widget.donationAddress);
+      _weightController = TextEditingController(text: widget.donationWeight);
+      _notesController = TextEditingController(text: widget.donationNotes);
+      _dateController = TextEditingController(text: widget.donationExpiry);
+    }
     var rawCategories = [
       "Select food category",
-      "Vegetables and fruits",
+      "Vegetables and Fruits",
       "Grain",
-      "Starchy roots",
+      "Starchy Roots",
       "Meat",
       "Dairy",
-      "Other beverages",
+      "Beverages",
+      "Others",
     ];
     var rawSubcategories = [
       "Select food subcategory",
-      "Fresh vegetable and fruit",
-      "Frozen vegetable and fruit",
-      "Dried vegetable and fruit",
-      "Fried/Baked vegetable and fruit",
-      "Canned/Bottled vegetable and fruit",
-      "Whole grains, cereals and products",
+      "Fresh vegetables and fruits",
+      "Frozen vegetables and fruits",
+      "Dried vegetables and fruits",
+      "Fried/Baked vegetables and fruits",
+      "Canned/Bottled vegetables and fruits",
+      "Whole grains and cereals",
       "Noodles or pasta",
-      "Hot or cold cereals",
       "Bread and cakes",
       "Biscuits, cookies, or crackers",
       "Chips",
@@ -66,7 +88,7 @@ class _DonationFormState extends State<DonationForm> {
       "Eggs",
       "Dried or canned beans and peas",
       "Nuts and seeds",
-    ]; // TODO: Just expand this list
+    ];
 
     var categories = rawCategories.map((element) {
       return DropdownMenuItem(
@@ -99,13 +121,13 @@ class _DonationFormState extends State<DonationForm> {
           );
         },
       );
-      if (picked != null && picked != selectedDate)
+      if (picked != null && picked != selectedDate) {
         setState(() {
           selectedDate = picked;
-          var date =
-              "${picked.toLocal().day}/${picked.toLocal().month}/${picked.toLocal().year}";
+          var date = DateFormat("d MMMM y").format(picked);
           _dateController.text = date;
         });
+      }
     }
 
     return Scaffold(
@@ -165,7 +187,7 @@ class _DonationFormState extends State<DonationForm> {
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                "Food Category Name",
+                                "Food Category",
                                 style: TextStyle(
                                     color: dark_grey,
                                     fontWeight: FontWeight.w600,
@@ -187,7 +209,7 @@ class _DonationFormState extends State<DonationForm> {
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                "Food Subcategory Name",
+                                "Food Subcategory",
                                 style: TextStyle(
                                     color: dark_grey,
                                     fontWeight: FontWeight.w600,
@@ -244,15 +266,14 @@ class _DonationFormState extends State<DonationForm> {
                                     child: TextFormField(
                                       controller: _dateController,
                                       decoration: InputDecoration(
-                                        labelText: "Date",
+                                        labelText: "Expiration Date",
                                         labelStyle: TextStyle(
                                             color: dark_grey,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 22),
                                         floatingLabelBehavior:
                                             FloatingLabelBehavior.always,
-                                        hintText:
-                                            "Enter your address for pick up",
+                                        hintText: "Enter the expiration date",
                                         hintStyle:
                                             TextStyle(height: 2, fontSize: 16),
                                         suffixIcon: Icon(
@@ -279,14 +300,14 @@ class _DonationFormState extends State<DonationForm> {
                                 TextField(
                                   controller: _addressController,
                                   decoration: InputDecoration(
-                                    labelText: "Address",
+                                    labelText: "Pick-Up Address",
                                     labelStyle: TextStyle(
                                         color: dark_grey,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 22),
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
-                                    hintText: "Enter your address for pick up",
+                                    hintText: "Enter the pick-up address",
                                     hintStyle:
                                         TextStyle(height: 2, fontSize: 16),
                                     suffixIcon: Icon(
@@ -357,35 +378,71 @@ class _DonationFormState extends State<DonationForm> {
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 30, left: 20, right: 20, bottom: 30),
-                        child: MainButton(
-                          press: () {
-                            Database.addDonation({
-                              'name': _category,
-                              'subcat': _subcategory,
-                              // For now, let's use the category as the title
-                              'category': _category,
-                              'subcategory': _subcategory,
-                              'donorID': widget.uid,
-                              'pantryID': "",
-                              'rescuerID': "",
-                              'expiry': _expiryController.text,
-                              'deliverTo': _addressController.text,
-                              'deliverFrom': _addressController.text,
-                              'estWeight': _weightController.text,
-                              'notes': _notesController.text,
-                              'status': 'pending',
-                            });
-                            Navigator.pop(context);
-                          },
-                          text: "Post Donation",
-                          gradient: LinearGradient(
-                            colors: <Color>[
-                              light_green,
-                              dark_green,
-                            ],
-                          ),
-                        ),
+                        child: (!widget.isUpdating)
+                            ? MainButton(
+                                press: () {
+                                  Database.addDonation({
+                                    'category': _category,
+                                    'subcategory': _subcategory,
+                                    'donorID': widget.uid,
+                                    'pantryID': "",
+                                    'rescuerID': "",
+                                    'expiry': _dateController.text,
+                                    'deliverTo': "",
+                                    'deliverFrom': _addressController.text,
+                                    'estWeight': _weightController.text,
+                                    'notes': _notesController.text,
+                                    'status': 'pending',
+                                  });
+                                  Navigator.pop(context);
+                                },
+                                text: "Post Donation",
+                                gradient: LinearGradient(
+                                  colors: <Color>[
+                                    light_green,
+                                    dark_green,
+                                  ],
+                                ),
+                              )
+                            : MainButton(
+                                press: () {
+                                  Database.updateDonation(
+                                      widget.donationID,
+                                      _category,
+                                      _subcategory,
+                                      _dateController.text,
+                                      _weightController.text,
+                                      _addressController.text,
+                                      _notesController.text);
+                                  Navigator.pop(context);
+                                },
+                                text: "Save Donation",
+                                gradient: LinearGradient(
+                                  colors: <Color>[
+                                    light_green,
+                                    dark_green,
+                                  ],
+                                ),
+                              ),
                       ),
+                      Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, bottom: 30),
+                          child: (widget.isUpdating)
+                              ? MainButton(
+                                  press: () {
+                                    Database.deleteDonation(widget.donationID);
+                                    Navigator.pop(context);
+                                  },
+                                  text: "Delete Donation",
+                                  gradient: LinearGradient(
+                                    colors: <Color>[
+                                      light_red,
+                                      dark_red,
+                                    ],
+                                  ),
+                                )
+                              : Container())
                     ],
                   ),
                 ],

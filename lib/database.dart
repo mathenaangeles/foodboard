@@ -22,18 +22,67 @@ class Database {
         .catchError((e) => print("Firebase failed! $e"));
   }
 
-  static Future<void> acceptDonation(String pantryID, String donationID) {
-    // TODO: Validation?
+  static Future<void> deleteDonation(String donationID) {
     return donations
         .doc(donationID)
-        .update({"pantryID": pantryID, "status": "accepted"})
+        .delete()
+        .then((v) => print("Delete donation success!"))
+        .catchError((e) => print("Firebase failed! $e"));
+  }
+
+  static Future<void> updateDonation(
+      String donationID,
+      String category,
+      String subcategory,
+      String expiry,
+      String estWeight,
+      String deliverFrom,
+      String notes) {
+    return donations
+        .doc(donationID)
+        .update({
+          "category": category,
+          "subcategory": subcategory,
+          "expiry": expiry,
+          "estWeight": estWeight,
+          "deliverFrom": deliverFrom,
+          "notes": notes,
+        })
+        .then((v) => print("Update donation success!"))
+        .catchError((e) => print("Firebase failed! $e"));
+  }
+
+  static Future<void> getDeliverTo(String pantryID, String donationID) async {
+    DocumentSnapshot pantry = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(pantryID)
+        .get();
+    var deliverTo = pantry.data()['address'];
+    return deliverTo;
+  }
+
+  static Future<void> acceptDonation(String pantryID, String donationID) {
+    return donations
+        .doc(donationID)
+        .update({
+          "pantryID": pantryID,
+          "status": "accepted",
+          "deliverTo": getDeliverTo(pantryID, donationID),
+        })
         .then((v) => print("Accept success!"))
+        .catchError((e) => print("Firebase failed! $e"));
+  }
+
+  static Future<void> rejectDonation(String pantryID, String donationID) {
+    return donations
+        .doc(donationID)
+        .update({"pantryID": pantryID, "status": "rejected"})
+        .then((v) => print("Rejected success!"))
         .catchError((e) => print("Firebase failed! $e"));
   }
 
   static Future<void> acceptDonationDelivery(
       String rescuerID, String donationID) {
-    // TODO: Validation?
     return donations
         .doc(donationID)
         .update({"rescuerID": rescuerID})
