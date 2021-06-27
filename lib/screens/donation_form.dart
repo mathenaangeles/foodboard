@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:foodboard/components/main_button.dart';
 import 'package:foodboard/components/forms_header.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class DonationForm extends StatefulWidget {
   final uid;

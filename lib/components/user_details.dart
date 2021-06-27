@@ -8,9 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:intl/intl.dart';
 
-class HomeHeader extends StatelessWidget {
+class UserDetails extends StatelessWidget {
   final User user;
-  HomeHeader(this.user);
+  UserDetails(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class HomeHeader extends StatelessWidget {
             if (snapshot.data.exists) {
               // If user data is there:
               Map<String, dynamic> data = snapshot.data.data();
-              return HomeHeaderContent(user.email, data);
+              return UserDetailsContent(user.email, data);
             }
             return Text("Firebase has encountered an error.");
           }
@@ -35,12 +35,12 @@ class HomeHeader extends StatelessWidget {
   }
 }
 
-class HomeHeaderContent extends StatelessWidget {
+class UserDetailsContent extends StatelessWidget {
   final email;
   final userData;
   final String dateNow = DateFormat("EEEE, d MMMM y").format(DateTime.now());
 
-  HomeHeaderContent(this.email, this.userData);
+  UserDetailsContent(this.email, this.userData);
 
   @override
   Widget build(BuildContext context) {

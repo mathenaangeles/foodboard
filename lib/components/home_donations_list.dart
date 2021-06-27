@@ -8,7 +8,7 @@ import 'package:foodboard/loading.dart';
 
 import 'package:intl/intl.dart';
 
-import '../donation_form.dart';
+import '../screens/donation_form.dart';
 
 class HomeDonationsList extends StatelessWidget {
   final uid;

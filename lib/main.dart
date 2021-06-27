@@ -13,6 +13,8 @@ import 'package:foodboard/auth/login.dart';
 import 'package:foodboard/auth/category.dart';
 import 'package:foodboard/loading.dart';
 
+import 'display.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -70,7 +72,7 @@ class Main extends StatelessWidget {
             if (snapshot.data.exists) {
               // If user data is there:
               Map<String, dynamic> user = snapshot.data.data();
-              return Home(user["userType"]);
+              return Display(tab: 0, userType: user["userType"]);
             }
             return Category();
           }

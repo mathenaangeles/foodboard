@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:foodboard/donation_form.dart';
+import 'package:foodboard/components/home_title_bar.dart';
+import 'package:foodboard/screens/donation_form.dart';
 
 import 'package:provider/provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:foodboard/constants.dart';
 
-import 'package:foodboard/components/home_title_bar.dart';
-import 'package:foodboard/components/home_header.dart';
+import 'package:foodboard/components/user_name.dart';
+import 'package:foodboard/components/user_details.dart';
 import 'package:foodboard/components/home_donations_list.dart';
 
 class Home extends StatefulWidget {
@@ -39,11 +40,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         : Scaffold(
             body: new Column(
               children: [
-                HomeTitleBar(
-                  press: () {},
-                  uid: user.uid, // TODO: Replace this with user's name
-                ),
-                HomeHeader(user),
+                HomeTitleBar(),
                 Container(
                   color: header_background_color,
                   child: new TabBar(
