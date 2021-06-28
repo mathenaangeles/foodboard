@@ -47,9 +47,9 @@ class _ProfileState extends State<Profile> {
               SizedBox(height:MediaQuery.of(context).size.height * 0.02),
               Text('Gianna Burgos', style: TextStyle(fontWeight:FontWeight.bold, fontSize: 24)),
               Text(getRole(), style: TextStyle(color:text_green,fontWeight:FontWeight.bold, fontSize: 18)),
-              SizedBox(height:MediaQuery.of(context).size.height * 0.05),
+              SizedBox(height:MediaQuery.of(context).size.height * 0.03),
               UserDetails(user),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               //add condition
               if (widget.userType != "rescuer") 
                 Align(
@@ -86,5 +86,34 @@ class _ProfileState extends State<Profile> {
         ),
       )
     );
+  }
+}
+
+class GetUserDisplayName extends StatelessWidget {
+  final String uid;
+  final style =
+      TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700);
+  GetUserDisplayName(this.uid);
+  @override
+  Widget build(BuildContext context) {
+    return uid == null
+        ? Center(child: CircularProgressIndicator())
+        : FutureBuilder<DocumentSnapshot>(
+            future:
+                FirebaseFirestore.instance.collection("users").doc(uid).get(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text("Firebase Error", style: style);
+              }
+
+              if (snapshot.connectionState == ConnectionState.done) {
+                Map<String, dynamic> data = snapshot.data.data();
+                return Text("${data['displayName']}", style: style);
+              }
+
+              return Text("...", style: style);
+            },
+          );
   }
 }
