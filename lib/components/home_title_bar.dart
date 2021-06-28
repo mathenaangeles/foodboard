@@ -21,30 +21,53 @@ class HomeTitleBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top:70.0, bottom: 20.0),
       child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,                  
-          children: [
-            RichText(
-              text: TextSpan(
-                text: 'FOOD',
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  color: light_green,
-                  fontSize: 24,
-                ),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'BOARD',
-                      style: TextStyle(
-                        color: dark_grey,
-                      )),
-                ],
+        color: header_background_color,
+        child: 
+        Padding(
+          padding: const EdgeInsets.only(left:20.0, right:20.0),
+          child: Row(        
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: RichText(
+                  text: TextSpan(
+                    text: 'FOOD',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      color: light_green,
+                      fontSize: 24,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: 'BOARD',
+                          style: TextStyle(
+                            color: dark_grey,
+                          )),
+                    ],
+                  ),
+                ), 
               ),
-            ),
-            Text(dateNow,
-              style: TextStyle(color: dark_grey, fontWeight: FontWeight.bold))                      
-          ],
+              Spacer(), 
+              //TO-DO: fix logout function
+              GestureDetector(
+                onTap: () async {
+                  await AuthService().logOut();
+                  Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(), 
+                          ),
+                          (route) => false,
+                        );
+                },
+                child: Icon(
+                  Icons.logout,
+                  color: Colors.green,
+                  size: 30.0,
+              ),
+              ),                               
+            ],
+          ),
         )
       ),
     );

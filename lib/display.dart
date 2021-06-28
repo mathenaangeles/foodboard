@@ -19,7 +19,7 @@ class _DisplayState extends State<Display> {
   List<Widget> _widgetDisplay() => <Widget>[
       Home(widget.userType),
       Map(),
-      Profile()
+      Profile(widget.userType)
   ];
   
   int currentTab = 0;

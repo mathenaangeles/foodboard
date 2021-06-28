@@ -48,7 +48,6 @@ class UserDetailsContent extends StatelessWidget {
     var phone = userData["phoneNumber"];
 
     var headerItems = <Widget>[
-      HeaderTitle(dateNow),
       SizedBox(height: header_spacing / 2),
       HeaderItem(Icons.email_rounded, email),
       Divider(color: header_item_color),
@@ -74,8 +73,6 @@ class UserDetailsContent extends StatelessWidget {
     }
 
     return Container(
-        color: header_background_color,
-        padding: EdgeInsets.all(20),
         child: Column(
           children: headerItems,
         ));

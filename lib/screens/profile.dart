@@ -1,19 +1,90 @@
 import 'package:flutter/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodboard/components/badge.dart';
+import 'package:provider/provider.dart';
 
+import 'package:foodboard/components/user_details.dart';
 import 'package:flutter/material.dart';
+import 'package:foodboard/constants.dart';
 
 class Profile extends StatefulWidget {
-  final int tab;
   final String userType;
 
-  const Profile({Key key, this.tab, this.userType}) : super(key: key);
+  Profile(this.userType);
 
   @override
   _ProfileState createState() => _ProfileState();
 }
-class _ProfileState extends State<Profile> {
+class _ProfileState extends State<Profile> {  
+  String role;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    final user = context.watch<User>();
+
+    String getRole(){
+      if (widget.userType=="donor"){
+        role = "Food Donor";
+
+      } else if (widget.userType == "rescuer"){
+        role = "Food Rescuer";
+
+      } else if (widget.userType == "pantry"){
+        role = "Food Pantry";
+      }
+
+      return role;
+    }
+
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: Column(
+            children: [
+              SizedBox(height:MediaQuery.of(context).size.height * 0.02),
+              Text('Gianna Burgos', style: TextStyle(fontWeight:FontWeight.bold, fontSize: 24)),
+              Text(getRole(), style: TextStyle(color:text_green,fontWeight:FontWeight.bold, fontSize: 18)),
+              SizedBox(height:MediaQuery.of(context).size.height * 0.05),
+              UserDetails(user),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+              //add condition
+              if (widget.userType != "rescuer") 
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: 
+                    Text('My Badges', 
+                      style: TextStyle(
+                        color:Colors.black, 
+                        fontSize: 18, 
+                        fontWeight: FontWeight.bold
+                      )
+                    )
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Badge(number:"5"),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                    Badge(number:"10"),                     
+                  ],
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Badge(number:"25"),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                    Badge(number:"40"),                     
+                  ],
+                ) 
+            ],
+          ),
+        ),
+      )
+    );
   }
 }

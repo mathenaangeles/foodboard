@@ -16,7 +16,7 @@ const cards_background_color = Color(0xFFF8F7FC);
 
 const header_text_size = 12.0;
 const header_tabs_text_size = 12.0;
-const header_spacing = 10.0;
+const header_spacing = 30.0;
 const donation_detail_text_size = 13.0;
 
 const header_title_color = Color(0xFF5E6080);
