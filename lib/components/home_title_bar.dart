@@ -10,44 +10,41 @@ import 'package:intl/intl.dart';
 class HomeTitleBar extends StatelessWidget {
   final String dateNow = DateFormat("EEEE, d MMMM y").format(DateTime.now());
 
-  HomeTitleBar({
-    Key key
-  }) : super(key: key);
+  HomeTitleBar({Key key}) : super(key: key);
 
   final double barHeight = 50.0;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top:70.0, bottom: 20.0),
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height * 0.07, bottom: 20.0),
       child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,                  
-          children: [
-            RichText(
-              text: TextSpan(
-                text: 'FOOD',
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  color: light_green,
-                  fontSize: 24,
-                ),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'BOARD',
-                      style: TextStyle(
-                        color: dark_grey,
-                      )),
-                ],
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          RichText(
+            text: TextSpan(
+              text: 'FOOD',
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                color: light_green,
+                fontSize: 24,
               ),
+              children: <TextSpan>[
+                TextSpan(
+                    text: 'BOARD',
+                    style: TextStyle(
+                      color: dark_grey,
+                    )),
+              ],
             ),
-            Text(dateNow,
-              style: TextStyle(color: dark_grey, fontWeight: FontWeight.bold))                      
-          ],
-        )
-      ),
+          ),
+          Text(dateNow,
+              style: TextStyle(color: dark_grey, fontWeight: FontWeight.bold))
+        ],
+      )),
     );
   }
 }
-
