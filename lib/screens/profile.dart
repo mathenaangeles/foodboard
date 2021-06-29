@@ -18,6 +18,9 @@ class Profile extends StatefulWidget {
 }
 class _ProfileState extends State<Profile> {  
   String role;
+  String name;
+
+  final profile_style = TextStyle(color:text_green,fontWeight:FontWeight.bold, fontSize: 18);
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +48,13 @@ class _ProfileState extends State<Profile> {
           child: Column(
             children: [
               SizedBox(height:MediaQuery.of(context).size.height * 0.03),
-              Text('Gianna Burgos', style: TextStyle(fontWeight:FontWeight.bold, fontSize: 24)),
-              Text(getRole(), style: TextStyle(color:text_green,fontWeight:FontWeight.bold, fontSize: 18)),
+              GetUserDisplayName(user.uid),
+              Text(getRole(), style: profile_style),
               SizedBox(height:MediaQuery.of(context).size.height * 0.02),
               UserDetails(user),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               //add condition
-              if (widget.userType != "rescuer") 
+              if (widget.userType != "pantry") 
                 Align(
                   alignment: Alignment.topLeft,
                   child: 
@@ -91,8 +94,8 @@ class _ProfileState extends State<Profile> {
 
 class GetUserDisplayName extends StatelessWidget {
   final String uid;
-  final style =
-      TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700);
+  final style = TextStyle(fontWeight:FontWeight.bold, fontSize: 24);
+
   GetUserDisplayName(this.uid);
   @override
   Widget build(BuildContext context) {
