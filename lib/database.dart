@@ -90,4 +90,84 @@ class Database {
         .then((v) => print("Rescuer accept success!"))
         .catchError((e) => print("Firebase failed! $e"));
   }
+
+  static Future<void> deliverDonationDelivery(
+      String rescuerID, String donationID) async {
+    // Increment counters
+    var donorID = await getDonationDonorID(donationID);
+    var donos = await getDonorDonations(donorID);
+    var deliveries = await getRescuerDeliveries(rescuerID);
+    await updateRescuerDeliveries(rescuerID, deliveries + 1);
+    await updateDonorDonations(donorID, donos + 1);
+
+    print("Updated donations $donos:$donorID");
+    print("Updated deliveries $deliveries:$rescuerID");
+
+    // Update donation status
+    return donations
+        .doc(donationID)
+        .update({"status": "received"})
+        .then((v) => print("Rescuer 'mark as delivered' success!"))
+        .catchError((e) => print("Firebase failed! $e"));
+  }
+
+  static Future<int> getRescuerDeliveries(String rescuerID) async {
+    DocumentSnapshot rescuer = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(rescuerID)
+        .get();
+
+    var deliveries = rescuer.data()['deliveries'];
+
+    if (deliveries == null) {
+      print("No deliveries field set! Setting up one now...");
+      await updateRescuerDeliveries(rescuerID, 0);
+      deliveries = 0;
+    }
+
+    return deliveries;
+  }
+
+  static Future<void> updateRescuerDeliveries(
+      String rescuerID, int deliveries) async {
+    return users
+        .doc(rescuerID)
+        .update({"deliveries": deliveries})
+        .then((v) => print("Rescuer delivery count update success!"))
+        .catchError((e) => print("Firebase failed! $e"));
+  }
+
+  static Future<String> getDonationDonorID(String donationID) async {
+    DocumentSnapshot rescuer = await FirebaseFirestore.instance
+        .collection("donations")
+        .doc(donationID)
+        .get();
+
+    var donorID = rescuer.data()['donorID'];
+    return donorID;
+  }
+
+  static Future<int> getDonorDonations(String donorID) async {
+    DocumentSnapshot donor =
+        await FirebaseFirestore.instance.collection("users").doc(donorID).get();
+
+    var donations = donor.data()['donations'];
+
+    if (donations == null) {
+      print("No donations field set! Setting up one now...");
+      await updateDonorDonations(donorID, 0);
+      donations = 0;
+    }
+
+    return donations;
+  }
+
+  static Future<void> updateDonorDonations(
+      String donorID, int donations) async {
+    return users
+        .doc(donorID)
+        .update({"donations": donations})
+        .then((v) => print("Donor donations count update success!"))
+        .catchError((e) => print("Firebase failed! $e"));
+  }
 }

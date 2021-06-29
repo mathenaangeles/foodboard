@@ -231,6 +231,19 @@ class DonationCard extends StatelessWidget {
                               ],
                             ))
                         : SizedBox(),
+                    (cardType == "rescuer" && status == "accepted")
+                        ? MainButton(
+                            text: "Mark as Delivered",
+                            press: () {
+                              Database.deliverDonationDelivery(uid, donationID);
+                            },
+                            gradient: LinearGradient(
+                              colors: <Color>[
+                                light_green,
+                                dark_green,
+                              ],
+                            ))
+                        : SizedBox(),
                     (cardType == "pantry" && cardData["status"] == "pending")
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
