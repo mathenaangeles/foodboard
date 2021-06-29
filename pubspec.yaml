@@ -34,6 +34,7 @@ dependencies:
   ionicons: ^0.1.2
 
   flutter_spinkit: "^4.1.2"
+  google_maps_flutter: ^2.0.6
 
 dev_dependencies:
   flutter_test:

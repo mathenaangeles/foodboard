@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.foodboard">
+   
+   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+   
    <application
         android:label="foodboard"
         android:icon="@mipmap/ic_launcher">
@@ -37,5 +40,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Google Maps integration! -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBxL7G21Oa0X2i15LCwhG9YHxLDFg4F2AA" />
     </application>
 </manifest>
