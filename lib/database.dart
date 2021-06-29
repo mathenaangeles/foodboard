@@ -52,7 +52,7 @@ class Database {
         .catchError((e) => print("Firebase failed! $e"));
   }
 
-  static Future<void> getDeliverTo(String pantryID, String donationID) async {
+  static Future<String> getDeliverTo(String pantryID, String donationID) async {
     DocumentSnapshot pantry = await FirebaseFirestore.instance
         .collection("users")
         .doc(pantryID)
@@ -61,13 +61,14 @@ class Database {
     return deliverTo;
   }
 
-  static Future<void> acceptDonation(String pantryID, String donationID) {
+  static Future<void> acceptDonation(String pantryID, String donationID) async {
+    var deliverTo = await getDeliverTo(pantryID, donationID);
     return donations
         .doc(donationID)
         .update({
           "pantryID": pantryID,
           "status": "accepted",
-          "deliverTo": getDeliverTo(pantryID, donationID),
+          "deliverTo": deliverTo,
         })
         .then((v) => print("Accept success!"))
         .catchError((e) => print("Firebase failed! $e"));
