@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodboard/constants.dart';
 
-import 'package:provider/provider.dart';
-import 'package:foodboard/utils/auth_service.dart';
 import 'package:foodboard/auth/login.dart';
 import 'package:intl/intl.dart';
 
@@ -13,6 +11,9 @@ class HomeTitleBar extends StatelessWidget {
   HomeTitleBar({Key key}) : super(key: key);
 
   final double barHeight = 50.0;
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class HomeTitleBar extends StatelessWidget {
               //TO-DO: fix logout function
               GestureDetector(
                 onTap: () async {
-                  await AuthService().logOut();
+                  await _firebaseAuth.signOut();
                   Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
@@ -63,8 +64,8 @@ class HomeTitleBar extends StatelessWidget {
                   Icons.logout,
                   color: Colors.green,
                   size: 30.0,
-              ),
-              ),                               
+                ),
+              )                              
             ],
           ),
         )

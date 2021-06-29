@@ -44,10 +44,10 @@ class _ProfileState extends State<Profile> {
           padding: const EdgeInsets.all(50.0),
           child: Column(
             children: [
-              SizedBox(height:MediaQuery.of(context).size.height * 0.02),
+              SizedBox(height:MediaQuery.of(context).size.height * 0.03),
               Text('Gianna Burgos', style: TextStyle(fontWeight:FontWeight.bold, fontSize: 24)),
               Text(getRole(), style: TextStyle(color:text_green,fontWeight:FontWeight.bold, fontSize: 18)),
-              SizedBox(height:MediaQuery.of(context).size.height * 0.03),
+              SizedBox(height:MediaQuery.of(context).size.height * 0.02),
               UserDetails(user),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               //add condition
