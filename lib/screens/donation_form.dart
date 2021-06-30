@@ -8,6 +8,7 @@ import 'package:foodboard/components/main_button.dart';
 import 'package:foodboard/components/forms_header.dart';
 
 import 'package:place_picker/place_picker.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 import '../constants.dart';
 
@@ -46,6 +47,9 @@ class _DonationFormState extends State<DonationForm> {
   TextEditingController _weightController = TextEditingController();
   TextEditingController _notesController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
+
+  var _geo = Geoflutterfire();
+  GeoFirePoint _geoPoint;
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +145,8 @@ class _DonationFormState extends State<DonationForm> {
                     displayLocation: LatLng(14.6537848, 121.0687486),
                   )));
       _addressController.text = result.formattedAddress;
+      _geoPoint = _geo.point(
+          latitude: result.latLng.latitude, longitude: result.latLng.longitude);
     }
 
     return Scaffold(
@@ -413,6 +419,7 @@ class _DonationFormState extends State<DonationForm> {
                                     'expiry': _dateController.text,
                                     'deliverTo': "",
                                     'deliverFrom': _addressController.text,
+                                    'point': _geoPoint.data,
                                     'estWeight': _weightController.text,
                                     'notes': _notesController.text,
                                     'status': 'pending',
