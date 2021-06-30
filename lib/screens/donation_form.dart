@@ -1,11 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:foodboard/constants.dart';
-import 'package:foodboard/database.dart';
+import 'package:foodboard/utils/database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:foodboard/components/main_button.dart';
 import 'package:foodboard/components/forms_header.dart';
+
+import 'package:place_picker/place_picker.dart';
 
 import '../constants.dart';
 
@@ -104,7 +106,7 @@ class _DonationFormState extends State<DonationForm> {
       );
     }).toList();
 
-    _selectDate(BuildContext context) async {
+    void _selectDate(BuildContext context) async {
       final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -128,6 +130,17 @@ class _DonationFormState extends State<DonationForm> {
           _dateController.text = date;
         });
       }
+    }
+
+    void _selectAddress(BuildContext context) async {
+      LocationResult result =
+          await Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => PlacePicker(
+                    "AIzaSyBxL7G21Oa0X2i15LCwhG9YHxLDFg4F2AA",
+                    // UP Diliman!
+                    displayLocation: LatLng(14.6537848, 121.0687486),
+                  )));
+      _addressController.text = result.formattedAddress;
     }
 
     return Scaffold(
@@ -297,30 +310,64 @@ class _DonationFormState extends State<DonationForm> {
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.02),
-                                TextField(
-                                  controller: _addressController,
-                                  decoration: InputDecoration(
-                                    labelText: "Pick-Up Address",
-                                    labelStyle: TextStyle(
-                                        color: dark_grey,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 22),
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.always,
-                                    hintText: "Enter the pick-up address",
-                                    hintStyle:
-                                        TextStyle(height: 2, fontSize: 16),
-                                    suffixIcon: Icon(
-                                      Icons.home,
-                                      color: dark_green,
-                                      size: 28,
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          const BorderSide(color: dark_green),
+                                GestureDetector(
+                                  onTap: () => _selectAddress(context),
+                                  child: AbsorbPointer(
+                                    child: TextFormField(
+                                      controller: _addressController,
+                                      decoration: InputDecoration(
+                                        labelText: "Pick-up Address",
+                                        labelStyle: TextStyle(
+                                            color: dark_grey,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 22),
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.always,
+                                        hintText: "Enter the pick-up address",
+                                        hintStyle:
+                                            TextStyle(height: 2, fontSize: 16),
+                                        suffixIcon: Icon(
+                                          Icons.calendar_today,
+                                          color: dark_green,
+                                          size: 28,
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: dark_green),
+                                        ),
+                                      ),
+                                      validator: (value) {
+                                        if (value.isEmpty)
+                                          return "Please enter a pick-up address";
+                                        return null;
+                                      },
                                     ),
                                   ),
                                 ),
+                                // TextField(
+                                //   controller: _addressController,
+                                //   decoration: InputDecoration(
+                                //     labelText: "Pick-Up Address",
+                                //     labelStyle: TextStyle(
+                                //         color: dark_grey,
+                                //         fontWeight: FontWeight.w600,
+                                //         fontSize: 22),
+                                //     floatingLabelBehavior:
+                                //         FloatingLabelBehavior.always,
+                                //     hintText: "Enter the pick-up address",
+                                //     hintStyle:
+                                //         TextStyle(height: 2, fontSize: 16),
+                                //     suffixIcon: Icon(
+                                //       Icons.home,
+                                //       color: dark_green,
+                                //       size: 28,
+                                //     ),
+                                //     focusedBorder: UnderlineInputBorder(
+                                //       borderSide:
+                                //           const BorderSide(color: dark_green),
+                                //     ),
+                                //   ),
+                                // ),
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.02),

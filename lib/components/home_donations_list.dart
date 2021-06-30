@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:foodboard/components/main_button.dart';
 import 'package:foodboard/constants.dart';
 import 'package:foodboard/components/gradient_icon.dart';
-import 'package:foodboard/database.dart';
+import 'package:foodboard/utils/database.dart';
 import 'package:foodboard/loading.dart';
 
 import 'package:intl/intl.dart';

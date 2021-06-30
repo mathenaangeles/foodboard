@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:foodboard/auth/category.dart';
 import 'package:foodboard/constants.dart';
-import 'package:foodboard/database.dart';
+import 'package:foodboard/utils/database.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
