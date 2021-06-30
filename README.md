@@ -1,7 +1,8 @@
+<img src="https://github.com/mathena828/foodboard/blob/main/FoodBoard.png" width="600" height="220">
 
 # FoodBoard
 
-FoodBoard is a cross-platform mobile application that automates local food donation systems. It is built with **Flutter** and **Firebase**. This projects aims to drive action towards [**SDG 2: Zero Hunger**](https://www.un.org/sustainabledevelopment/hunger/) and [**SDG 12: Responsible Consumption and Production**](https://www.un.org/sustainabledevelopment/sustainable-consumption-production/). This solution was inspired by the massive food waste problem in Metro Manila wherein an estimated 2,000 tons of food are thrown away daily. Meanwhile, one in three Filipinos who live below the poverty line continue to struggle with lack of food security.
+FoodBoard is a cross-platform mobile application that automates local food donation systems. It is built with **Flutter** and **Firebase**. This projects aims to drive action towards [**SDG 2: Zero Hunger**](https://www.un.org/sustainabledevelopment/hunger/) and [**SDG 12: Responsible Consumption and Production**](https://www.un.org/sustainabledevelopment/sustainable-consumption-production/). This solution was inspired by the massive food waste problem in Metro Manila wherein an estimated 2000 tons of food are thrown away daily. Meanwhile, one in three Filipinos who live below the poverty line continue to struggle with lack of food security.
 
 ## Getting Started
 
@@ -13,11 +14,11 @@ Make sure that you have Flutter set up with the respective editor plugins for [A
 
 ## Usage
 
-Users can register for Foodboard as a **food donor**, a **food rescuer**, or a **food pantry**. They will need to input addtional information relevant to those specific roles in order to finish creating their account. 
+Users can register for Foodboard as a **food donor**, a **food rescuer**, or a **food pantry**. They will need to input addtional information relevant to those specific roles in order to finish creating their account. Users can earn certificates courtesy of [Rise Against Hunger](https://www.riseagainsthunger.org/) and the [World Food Programme](https://www.wfp.org/) after reaching donation milestones.
 
 #### Food Donor
 
-Food donors can help support underpriviledged communities by sending them their excess supplies. They can simply post details of their inventory on FoodBoard and easily connect to third-party organizations who can route their donations to those in need.
+Food donors can help support underpriviledged communities by sending them their excess supplies. They can simply post details of their inventory on FoodBoard and easily connect to third-party organizations who can route their donations to those in need. 
 
 #### Food Rescuer
 
