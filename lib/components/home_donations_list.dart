@@ -466,9 +466,13 @@ class DonationDetailItem extends StatelessWidget {
               style: style_text,
             )
           ]),
-          Text(
-            content,
-            style: style_content,
+          SizedBox(width: 10),
+          Flexible(
+            child: Text(
+              content,
+              style: style_content,
+              overflow: TextOverflow.ellipsis,
+            ),
           )
         ]));
   }
