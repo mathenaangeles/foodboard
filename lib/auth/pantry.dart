@@ -12,6 +12,9 @@ import 'package:foodboard/components/main_button.dart';
 import 'package:foodboard/components/forms_header.dart';
 import 'package:foodboard/home.dart';
 
+import 'package:place_picker/place_picker.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+
 class Pantry extends StatefulWidget {
   @override
   _PantryState createState() => _PantryState();
@@ -26,6 +29,21 @@ class _PantryState extends State<Pantry> {
   final TextEditingController _beneficiaryController = TextEditingController();
   final TextEditingController _foodneededController = TextEditingController();
   final TextEditingController _rescueareaController = TextEditingController();
+
+  var _geo = Geoflutterfire();
+  GeoFirePoint _geoPoint;
+
+  void _selectAddress(BuildContext context) async {
+    LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => PlacePicker(
+              "AIzaSyBxL7G21Oa0X2i15LCwhG9YHxLDFg4F2AA",
+              // UP Diliman!
+              displayLocation: LatLng(14.6537848, 121.0687486),
+            )));
+    _addressController.text = result.formattedAddress;
+    _geoPoint = _geo.point(
+        latitude: result.latLng.latitude, longitude: result.latLng.longitude);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,26 +171,37 @@ class _PantryState extends State<Pantry> {
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.02),
-                            TextField(
-                              controller: _addressController,
-                              decoration: InputDecoration(
-                                labelText: "Address",
-                                labelStyle: TextStyle(
-                                    color: dark_grey,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 22),
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                hintText: "Enter your address",
-                                hintStyle: TextStyle(height: 2, fontSize: 16),
-                                suffixIcon: Icon(
-                                  Icons.home,
-                                  color: dark_green,
-                                  size: 28,
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: dark_green),
+                            GestureDetector(
+                              onTap: () => _selectAddress(context),
+                              child: AbsorbPointer(
+                                child: TextFormField(
+                                  controller: _addressController,
+                                  decoration: InputDecoration(
+                                    labelText: "Address",
+                                    labelStyle: TextStyle(
+                                        color: dark_grey,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 22),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always,
+                                    hintText: "Enter address",
+                                    hintStyle:
+                                        TextStyle(height: 2, fontSize: 16),
+                                    suffixIcon: Icon(
+                                      Icons.house,
+                                      color: dark_green,
+                                      size: 28,
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          const BorderSide(color: dark_green),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value.isEmpty)
+                                      return "Please enter an address";
+                                    return null;
+                                  },
                                 ),
                               ),
                             ),
@@ -335,7 +364,8 @@ class _PantryState extends State<Pantry> {
                                   'beneficiary': _beneficiaryController.text,
                                   'foodNeeded': _foodneededController.text,
                                   'rescueArea': _rescueareaController.text,
-                                  'userType': 'pantry'
+                                  'userType': 'pantry',
+                                  'point': _geoPoint.data,
                                 });
                                 Navigator.pushAndRemoveUntil(
                                   context,

@@ -18,7 +18,8 @@ class _MapViewState extends State<MapView> {
 
   final _firestore = FirebaseFirestore.instance;
   final _geo = Geoflutterfire();
-  Stream<List<DocumentSnapshot>> stream;
+  Stream<List<DocumentSnapshot>> donationstream;
+  Stream<List<DocumentSnapshot>> pantrystream;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   static final CameraPosition defaultCamera = CameraPosition(
@@ -30,8 +31,14 @@ class _MapViewState extends State<MapView> {
   void initState() {
     super.initState();
     CollectionReference donations = _firestore.collection("donations");
+    CollectionReference pantries = _firestore.collection("users");
+
     print(donations);
-    stream = _geo.collection(collectionRef: donations).within(
+    donationstream = _geo.collection(collectionRef: donations).within(
+        center: _geo.point(latitude: 14.6537848, longitude: 121.0687486),
+        radius: 100,
+        field: "point");
+    pantrystream = _geo.collection(collectionRef: pantries).within(
         center: _geo.point(latitude: 14.6537848, longitude: 121.0687486),
         radius: 100,
         field: "point");
@@ -39,8 +46,11 @@ class _MapViewState extends State<MapView> {
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
-      stream.listen((List<DocumentSnapshot> documentList) {
+      donationstream.listen((List<DocumentSnapshot> documentList) {
         _updateDonationMarkers(documentList);
+      });
+      pantrystream.listen((List<DocumentSnapshot> documentList) {
+        _updatePantryMarkers(documentList);
       });
     });
   }
@@ -53,21 +63,30 @@ class _MapViewState extends State<MapView> {
       final weight = document.data()['estWeight'];
 
       final GeoPoint point = document.data()['point']['geopoint'];
-      _addMarker(
-        point.latitude,
-        point.longitude,
-        title,
-        "$weight kg, 5 km away",
-      );
+      _addMarker(point.latitude, point.longitude, title,
+          "$weight kg, 5 km away", BitmapDescriptor.hueRed);
     });
   }
 
-  void _addMarker(double lat, double lng, String title, String snippet) {
+  void _updatePantryMarkers(List<DocumentSnapshot> documentList) {
+    documentList.forEach((DocumentSnapshot document) {
+      if (document.data()['userType'] != "pantry") return;
+
+      final title = document.data()['displayName'];
+
+      final GeoPoint point = document.data()['point']['geopoint'];
+      _addMarker(point.latitude, point.longitude, title, "Pantry, 5 km away",
+          BitmapDescriptor.hueBlue);
+    });
+  }
+
+  void _addMarker(
+      double lat, double lng, String title, String snippet, double color) {
     final id = MarkerId(lat.toString() + lng.toString());
     final _marker = Marker(
       markerId: id,
       position: LatLng(lat, lng),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      icon: BitmapDescriptor.defaultMarkerWithHue(color),
       infoWindow: InfoWindow(title: title, snippet: snippet),
     );
     setState(() {

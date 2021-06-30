@@ -333,7 +333,7 @@ class _DonationFormState extends State<DonationForm> {
                                         hintStyle:
                                             TextStyle(height: 2, fontSize: 16),
                                         suffixIcon: Icon(
-                                          Icons.calendar_today,
+                                          Icons.pin_drop_rounded,
                                           color: dark_green,
                                           size: 28,
                                         ),
