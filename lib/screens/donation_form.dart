@@ -344,30 +344,6 @@ class _DonationFormState extends State<DonationForm> {
                                     ),
                                   ),
                                 ),
-                                // TextField(
-                                //   controller: _addressController,
-                                //   decoration: InputDecoration(
-                                //     labelText: "Pick-Up Address",
-                                //     labelStyle: TextStyle(
-                                //         color: dark_grey,
-                                //         fontWeight: FontWeight.w600,
-                                //         fontSize: 22),
-                                //     floatingLabelBehavior:
-                                //         FloatingLabelBehavior.always,
-                                //     hintText: "Enter the pick-up address",
-                                //     hintStyle:
-                                //         TextStyle(height: 2, fontSize: 16),
-                                //     suffixIcon: Icon(
-                                //       Icons.home,
-                                //       color: dark_green,
-                                //       size: 28,
-                                //     ),
-                                //     focusedBorder: UnderlineInputBorder(
-                                //       borderSide:
-                                //           const BorderSide(color: dark_green),
-                                //     ),
-                                //   ),
-                                // ),
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.02),
