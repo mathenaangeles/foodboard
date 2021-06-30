@@ -17,7 +17,7 @@ class Display extends StatefulWidget {
 
 class _DisplayState extends State<Display> {
   List<Widget> _widgetDisplay() =>
-      <Widget>[Home(widget.userType), Map(), Profile(widget.userType)];
+      <Widget>[Home(widget.userType), MapView(), Profile(widget.userType)];
 
   int currentTab = 0;
   var start = 0;
