@@ -23,7 +23,7 @@ class _MapViewState extends State<MapView> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   static final CameraPosition defaultCamera = CameraPosition(
-    target: LatLng(14.6537848, 121.0687486), // UP Diliman!
+    target: LatLng(14.6537848, 121.0687486), // UP Diliman
     zoom: 14,
   );
 
