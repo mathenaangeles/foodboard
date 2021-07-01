@@ -2,15 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:foodboard/constants.dart';
 
 class Badge extends StatelessWidget {
-  final String number;
+  final int number;
+  final int donations;
 
   const Badge({
     Key key,
     this.number,
+    this.donations
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Color badge;
+
+    if (donations > number){
+      badge = Colors.green;
+    } else {
+      badge = Colors.grey;
+    }
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -30,14 +40,14 @@ class Badge extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(this.number, style: TextStyle(color: text_green, fontSize: 27, fontWeight: FontWeight.bold)),
+          Text((this.number).toString(), style: TextStyle(color: badge, fontSize: 27, fontWeight: FontWeight.bold)),
           SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-          Text("successful", style: TextStyle(color: text_green, fontSize: 14, fontWeight: FontWeight.bold)),
-          Text("donations", style: TextStyle(color: text_green, fontSize: 14, fontWeight: FontWeight.bold)),
+          Text("successful", style: TextStyle(color: badge, fontSize: 14, fontWeight: FontWeight.bold)),
+          Text("donations", style: TextStyle(color: badge, fontSize: 14, fontWeight: FontWeight.bold)),
           SizedBox(height: MediaQuery.of(context).size.height * 0.02),
           Icon(
             Icons.star,
-            color: Colors.green,
+            color: badge,
             size: 20.0,
           ),
         ],

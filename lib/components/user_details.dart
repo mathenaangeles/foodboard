@@ -4,13 +4,15 @@ import 'package:foodboard/components/gradient_icon.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:foodboard/loading.dart';
 
+import 'package:foodboard/utils/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:intl/intl.dart';
 
 class UserDetails extends StatelessWidget {
   final User user;
-  UserDetails(this.user);
+  final int donations;
+  UserDetails(this.user, this.donations);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class UserDetails extends StatelessWidget {
             if (snapshot.data.exists) {
               // If user data is there:
               Map<String, dynamic> data = snapshot.data.data();
-              return UserDetailsContent(user.email, data);
+              return UserDetailsContent(user.uid,user.email, data, donations);
             }
             return Text("Firebase has encountered an error.");
           }
@@ -36,11 +38,13 @@ class UserDetails extends StatelessWidget {
 }
 
 class UserDetailsContent extends StatelessWidget {
+  final uid;
   final email;
   final userData;
+  final donations;
   final String dateNow = DateFormat("EEEE, d MMMM y").format(DateTime.now());
 
-  UserDetailsContent(this.email, this.userData);
+  UserDetailsContent(this.uid,this.email, this.userData, this.donations);
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +59,8 @@ class UserDetailsContent extends StatelessWidget {
       SizedBox(height: header_spacing),
       HeaderTitle("Statistics"),
       SizedBox(height: header_spacing / 2),
-      // TODO: I can't find the specific icon for these, just change:
       (userType == "donor")
-          ? HeaderItemWithContent(Icons.set_meal, "Successful Donations", "250")
+          ? HeaderItemWithContent(Icons.set_meal, "Successful Donations", donations.toString())
           : SizedBox(),
       (userType == "rescuer")
           ? HeaderItemWithContent(Icons.set_meal, "Donations Rescued", "250")
