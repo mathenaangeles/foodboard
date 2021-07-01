@@ -58,13 +58,7 @@ class UserDetailsContent extends StatelessWidget {
       HeaderItem(Icons.local_phone, phone),
       SizedBox(height: header_spacing),
       HeaderTitle("Statistics"),
-      SizedBox(height: header_spacing / 2),
-      (userType == "donor")
-          ? HeaderItemWithContent(Icons.set_meal, "Successful Donations", donations.toString())
-          : SizedBox(),
-      (userType == "rescuer")
-          ? HeaderItemWithContent(Icons.set_meal, "Donations Rescued", "250")
-          : SizedBox(),
+      SizedBox(height: header_spacing / 2)
     ];
 
     if (userType == "pantry") {
