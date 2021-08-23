@@ -63,8 +63,8 @@ class _MapViewState extends State<MapView> {
       final weight = document.data()['estWeight'];
 
       final GeoPoint point = document.data()['point']['geopoint'];
-      _addMarker(point.latitude, point.longitude, title,
-          "$weight kg, 5 km away", BitmapDescriptor.hueRed);
+      _addMarker(point.latitude, point.longitude, title, "Donation, $weight kg",
+          BitmapDescriptor.hueRed);
     });
   }
 
@@ -75,7 +75,7 @@ class _MapViewState extends State<MapView> {
       final title = document.data()['displayName'];
 
       final GeoPoint point = document.data()['point']['geopoint'];
-      _addMarker(point.latitude, point.longitude, title, "Pantry, 5 km away",
+      _addMarker(point.latitude, point.longitude, title, "Pantry",
           BitmapDescriptor.hueBlue);
     });
   }
