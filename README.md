@@ -1,4 +1,4 @@
-<img src="https://github.com/mathena828/foodboard/blob/main/FoodBoard.png" width="600" height="220">
+<img src="https://github.com/mathena828/foodboard/blob/main/FoodBoard.png" width="100%" height="100%">
 
 # FoodBoard
 
