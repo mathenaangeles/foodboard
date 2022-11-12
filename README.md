@@ -2,7 +2,7 @@
 
 # FoodBoard
 
-FoodBoard is a cross-platform mobile application that automates local food donation systems. It is built with **Flutter** and **Firebase**. This projects aims to drive action towards [**SDG 2: Zero Hunger**](https://www.un.org/sustainabledevelopment/hunger/) and [**SDG 12: Responsible Consumption and Production**](https://www.un.org/sustainabledevelopment/sustainable-consumption-production/). This solution was inspired by the massive food waste problem in Metro Manila wherein an estimated 2000 tons of food are thrown away daily. Meanwhile, one in three Filipinos who live below the poverty line continue to struggle with lack of food security.
+FoodBoard is a cross-platform mobile application that automates local food donation systems. It is built with **Flutter** and **Firebase**. This project aims to drive action towards [**SDG 2: Zero Hunger**](https://www.un.org/sustainabledevelopment/hunger/) and [**SDG 12: Responsible Consumption and Production**](https://www.un.org/sustainabledevelopment/sustainable-consumption-production/). It is one of the **Top 50 semi-finalists** in the **2021 Google Solution Challenge**. FoodBoard was inspired by the massive food waste problem in Metro Manila wherein an estimated 2000 tons of food are thrown away daily. Meanwhile, one in three Filipinos who live below the poverty line continue to struggle with lack of food security.
 
 ## Getting Started
 
